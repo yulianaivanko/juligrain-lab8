@@ -12,7 +12,8 @@
 
 ## Публікація
 
-У GitHub відкрийте Settings → Pages, виберіть Deploy from a branch, гілку main і папку / (root).
+1. У GitHub відкрийте Settings → Pages, виберіть Deploy from a branch, гілку main і папку / (root).
+2. У Netlify імпортуйте репозиторій із GitHub, виберіть main і каталог публікації ".". Збірка не потрібна.
 
 ## Технології та авторка
 
