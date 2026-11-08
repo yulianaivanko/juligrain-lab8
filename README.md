@@ -12,6 +12,8 @@
 
 ## Публікація
 
+[Відкрити JuliGrain на GitHub Pages](https://yulianaivanko.github.io/juligrain-lab8/)
+
 1. У GitHub відкрийте Settings → Pages, виберіть Deploy from a branch, гілку main і папку / (root).
 2. У Netlify імпортуйте репозиторій із GitHub, виберіть main і каталог публікації ".". Збірка не потрібна.
 
