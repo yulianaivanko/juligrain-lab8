@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Студія краси JuliGrain у Львові: стрижки, фарбування, макіяж і догляд. Перегляньте послуги та оберіть час в покроковій демонстрації запису на сторінці." />
     <!-- Критичні ресурси першого екрана отримують ранній пріоритет. -->
-    <link rel="preload" href="assets/images/hero-poster.webp" as="image" fetchpriority="high" />
+    <link rel="preload" href="assets/images/hero-background.webp" as="image" fetchpriority="high" />
     <title>Студія краси JuliGrain у Львові | Онлайн-запис</title>
     <link rel="stylesheet" href="css/tailwind.css?v=20261104-hover" />
+    <link rel="stylesheet" href="css/hero.css?v=2" />
     <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml" />
   </head>
   <body class="[&amp;_p]:leading-relaxed [&amp;_a]:focus-visible:outline [&amp;_a]:focus-visible:outline-2 [&amp;_a]:focus-visible:outline-offset-4 [&amp;_a]:focus-visible:outline-gold [&amp;_button]:focus-visible:outline [&amp;_button]:focus-visible:outline-2 [&amp;_button]:focus-visible:outline-offset-4 [&amp;_button]:focus-visible:outline-gold [&amp;_summary]:focus-visible:outline [&amp;_summary]:focus-visible:outline-2 [&amp;_summary]:focus-visible:outline-offset-4 [&amp;_summary]:focus-visible:outline-sage [&amp;_[hidden]]:!hidden bg-cream font-sans text-sage antialiased">
@@ -36,9 +37,9 @@
     </header>
     <div class="page">
       <main id="main">
-        <!-- Головний екран із відео та кнопками запису -->
+        <!-- Головний екран із фоном та кнопками запису -->
         <section class="hero relative isolate scroll-mt-28 overflow-hidden bg-sage text-white" aria-labelledby="hero-title" id="section-1">
-          <div class="hero-inner mx-auto grid min-h-[480px] max-w-7xl items-center gap-8 px-4 py-12 md:min-h-[560px] md:grid-cols-2 md:px-6 md:py-20 lg:px-8 xl:px-10">
+          <div class="hero-inner mx-auto grid min-h-[480px] max-w-7xl items-center px-4 py-12 md:min-h-[560px] md:px-6 md:py-20 lg:px-8 xl:px-10">
             <div class="hero-content relative z-10 min-w-0 text-left">
               <div class="eyebrow mb-3 text-xs font-semibold uppercase tracking-[0.18em]">
                 Салон краси JuliGrain
@@ -54,14 +55,6 @@
                 <a class="button inline-flex min-h-11 items-center justify-center rounded-lg bg-cream px-6 py-3 text-center font-semibold text-sage transition duration-200 hover:bg-linen hover:shadow-md focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transform-none motion-reduce:transition-none" href="#booking" title="Перейти до демонстраційного запису JuliGrain">Обрати послугу та час</a>
                 <a class="button inline-flex min-h-11 items-center justify-center rounded-lg border border-cream bg-transparent px-6 py-3 text-center font-semibold text-cream transition duration-200 hover:bg-cream hover:text-sage hover:shadow-md focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transform-none motion-reduce:transition-none" href="#services" title="Переглянути послуги">Переглянути послуги</a>
               </div>
-            </div>
-            <div class="hero-image relative isolate min-h-72 overflow-hidden rounded-2xl bg-deep md:min-h-96">
-              <img src="assets/images/hero-poster.webp" alt="" width="720" height="560" class="absolute inset-0 h-full w-full object-cover" fetchpriority="high" />
-              <!-- MEDIA START: локальне фонове відео. muted + playsinline дозволяють тихе відтворення; poster показує кадр до завантаження. Автоматично відтворюється початковий фон з оливковими гілками; motion-reduce приховує рух. -->
-              <video autoplay class="hero-video absolute inset-0 h-full w-full object-cover motion-reduce:hidden" muted loop playsinline poster="assets/images/hero-poster.webp" aria-hidden="true" preload="none">
-                <source src="assets/images/hero-loop.mp4" type="video/mp4" />
-              </video>
-              <!-- MEDIA END: локальне фонове відео. -->
             </div>
           </div>
         </section>

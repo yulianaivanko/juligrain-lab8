@@ -1,0 +1,27 @@
+.hero {
+  background: #29332e url("../assets/images/hero-background.webp") right center / cover no-repeat;
+}
+
+.hero::after {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+
+.hero::after {
+  content: "";
+  background: linear-gradient(90deg, rgba(21, 29, 25, .86) 0%, rgba(21, 29, 25, .72) 44%, rgba(21, 29, 25, .16) 100%);
+}
+
+.hero-content {
+  max-width: 34rem;
+}
+
+@media (max-width: 767px) {
+  .hero::after {
+    background: rgba(21, 29, 25, .69);
+  }
+}
