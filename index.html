@@ -4,12 +4,13 @@
     <!-- Налаштування сторінки, шрифти та стилі -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Студія краси JuliGrain у Львові: стрижки, фарбування, макіяж і догляд. Перегляньте послуги та оберіть час в покроковій демонстрації запису на сторінці." />
+    <meta name="description" content="Студія краси JuliGrain у Львові: стрижки, фарбування, макіяж і догляд. Перегляньте послуги та оберіть час у демонстрації запису або залиште повідомлення через форму зворотного зв'язку." />
     <!-- Критичні ресурси першого екрана отримують ранній пріоритет. -->
     <link rel="preload" href="assets/images/hero-background.webp" as="image" fetchpriority="high" />
     <title>Студія краси JuliGrain у Львові | Онлайн-запис</title>
-    <link rel="stylesheet" href="css/tailwind.css?v=20261104-hover" />
+    <link rel="stylesheet" href="css/tailwind.css?v=20261117-form" />
     <link rel="stylesheet" href="css/hero.css?v=2" />
+    <link rel="stylesheet" href="assets/css/styles.css?v=lab9" />
     <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml" />
   </head>
   <body class="[&amp;_p]:leading-relaxed [&amp;_a]:focus-visible:outline [&amp;_a]:focus-visible:outline-2 [&amp;_a]:focus-visible:outline-offset-4 [&amp;_a]:focus-visible:outline-gold [&amp;_button]:focus-visible:outline [&amp;_button]:focus-visible:outline-2 [&amp;_button]:focus-visible:outline-offset-4 [&amp;_button]:focus-visible:outline-gold [&amp;_summary]:focus-visible:outline [&amp;_summary]:focus-visible:outline-2 [&amp;_summary]:focus-visible:outline-offset-4 [&amp;_summary]:focus-visible:outline-sage [&amp;_[hidden]]:!hidden bg-cream font-sans text-sage antialiased">
@@ -1186,6 +1187,119 @@
             </div>
           </div>
         </section>
+        <!-- ЛР 9. Форма зворотного зв'язку з клієнтською валідацією -->
+        <section id="contact" aria-labelledby="contact-title" class="scroll-mt-28 bg-linen py-12 md:py-20">
+          <div class="mx-auto grid w-full max-w-7xl gap-10 px-4 md:px-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14 lg:px-8 xl:px-10">
+            <div class="min-w-0">
+              <div class="eyebrow mb-3 text-xs font-semibold uppercase tracking-[0.18em]">
+                <svg class="mr-2 inline h-5 w-5" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <path d="M4 6h16v12H4z"></path>
+                  <path d="m4 7 8 6 8-6"></path></svg>Зворотний зв'язок
+              </div>
+              <h2 class="mb-4 break-words font-display text-3xl font-medium leading-tight md:text-4xl lg:text-5xl" id="contact-title">
+                Залиште повідомлення адміністраторці
+              </h2>
+              <p class="mb-6 text-muted">
+                Запитайте про послугу, догляд чи подарунковий сертифікат. Ми зв'яжемося з вами
+                зручним способом.
+              </p>
+              <ul class="grid gap-3 text-sm text-muted" role="list">
+                <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true"></span>Усі поля, позначені зірочкою, є обов'язковими.</li>
+                <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true"></span>Телефон вводьте у форматі +380XXXXXXXXX. Номер, що починається з 0, буде доповнено автоматично.</li>
+                <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true"></span>Навчальна демонстрація: дані перевіряються лише в браузері та нікуди не надсилаються.</li>
+              </ul>
+            </div>
+
+            <form id="feedbackForm" class="min-w-0 rounded-2xl border border-stone-300 bg-cream p-5 shadow-ambient sm:p-8" action="#" method="post" novalidate aria-describedby="formNote">
+              <p id="formNote" class="mb-6 text-sm text-muted"><span class="font-semibold text-red-700" aria-hidden="true">*</span> — обов'язкове поле</p>
+
+              <div class="grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
+                <!-- Ім'я -->
+                <div class="min-w-0">
+                  <label for="username" class="mb-2 block text-sm font-semibold text-sage">Ім'я <span class="text-red-700" aria-hidden="true">*</span></label>
+                  <input type="text" id="username" name="username" autocomplete="given-name" required minlength="2" maxlength="50" aria-describedby="nameHint nameError" aria-invalid="false" class="form-field block min-h-12 w-full rounded-lg border border-stone-300 bg-white px-4 py-3 text-base text-sage transition duration-200 hover:border-stone-400 focus:border-sage focus:outline-none focus:ring-2 focus:ring-gold/60 motion-reduce:transition-none" />
+                  <p id="nameHint" class="mt-1.5 text-xs text-muted">Від 2 до 50 літер, наприклад: Ірина</p>
+                  <p id="nameError" class="mt-1.5 hidden text-sm font-medium text-red-700" role="alert"></p>
+                </div>
+
+                <!-- Email -->
+                <div class="min-w-0">
+                  <label for="email" class="mb-2 block text-sm font-semibold text-sage">Електронна пошта <span class="text-red-700" aria-hidden="true">*</span></label>
+                  <input type="email" id="email" name="email" autocomplete="email" inputmode="email" required maxlength="254" spellcheck="false" aria-describedby="emailHint emailError" aria-invalid="false" class="form-field block min-h-12 w-full rounded-lg border border-stone-300 bg-white px-4 py-3 text-base text-sage transition duration-200 hover:border-stone-400 focus:border-sage focus:outline-none focus:ring-2 focus:ring-gold/60 motion-reduce:transition-none" />
+                  <p id="emailHint" class="mt-1.5 text-xs text-muted">Наприклад: user@gmail.com</p>
+                  <p id="emailError" class="mt-1.5 hidden text-sm font-medium text-red-700" role="alert"></p>
+                </div>
+
+                <!-- Телефон -->
+                <div class="min-w-0">
+                  <label for="phone" class="mb-2 block text-sm font-semibold text-sage">Телефон <span class="text-red-700" aria-hidden="true">*</span></label>
+                  <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required aria-describedby="phoneHint phoneError" aria-invalid="false" class="form-field block min-h-12 w-full rounded-lg border border-stone-300 bg-white px-4 py-3 text-base tracking-wide text-sage transition duration-200 hover:border-stone-400 focus:border-sage focus:outline-none focus:ring-2 focus:ring-gold/60 motion-reduce:transition-none" />
+                  <p id="phoneHint" class="mt-1.5 text-xs text-muted" aria-live="polite">Формат: +380XXXXXXXXX</p>
+                  <p id="phoneError" class="mt-1.5 hidden text-sm font-medium text-red-700" role="alert"></p>
+                </div>
+
+                <!-- Тема (необов'язкове поле) -->
+                <div class="min-w-0">
+                  <label for="topic" class="mb-2 block text-sm font-semibold text-sage">Тема звернення</label>
+                  <select id="topic" name="topic" aria-describedby="topicHint" class="form-field block min-h-12 w-full rounded-lg border border-stone-300 bg-white px-4 py-3 text-base text-sage transition duration-200 hover:border-stone-400 focus:border-sage focus:outline-none focus:ring-2 focus:ring-gold/60 motion-reduce:transition-none">
+                    <option value="consultation">Консультація щодо послуги</option>
+                    <option value="certificate">Подарунковий сертифікат</option>
+                    <option value="cosmetics">Доглядова косметика</option>
+                    <option value="other">Інше питання</option>
+                  </select>
+                  <p id="topicHint" class="mt-1.5 text-xs text-muted">Необов'язково</p>
+                </div>
+
+                <!-- Повідомлення -->
+                <div class="min-w-0 md:col-span-2">
+                  <label for="message" class="mb-2 block text-sm font-semibold text-sage">Повідомлення <span class="text-red-700" aria-hidden="true">*</span></label>
+                  <textarea id="message" name="message" rows="5" required minlength="10" maxlength="1000" aria-describedby="messageHint messageError" aria-invalid="false" class="form-field block min-h-36 w-full resize-y rounded-lg border border-stone-300 bg-white px-4 py-3 text-base text-sage transition duration-200 hover:border-stone-400 focus:border-sage focus:outline-none focus:ring-2 focus:ring-gold/60 motion-reduce:transition-none"></textarea>
+                  <div class="mt-1.5 flex flex-wrap justify-between gap-2 text-xs text-muted">
+                    <p id="messageHint">Щонайменше 10 символів</p>
+                    <p id="messageCounter" aria-hidden="true">0 / 1000</p>
+                  </div>
+                  <p id="messageError" class="mt-1.5 hidden text-sm font-medium text-red-700" role="alert"></p>
+                </div>
+
+                <!-- Згода -->
+                <div class="min-w-0 md:col-span-2">
+                  <div class="flex items-start gap-3">
+                    <input type="checkbox" id="agreement" name="agreement" required aria-describedby="agreementError" aria-invalid="false" class="mt-0.5 h-6 w-6 shrink-0 cursor-pointer rounded border-stone-400 accent-sage focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2" />
+                    <label for="agreement" class="cursor-pointer text-sm leading-6 text-sage">
+                      Погоджуюся з <a href="privacy.html" target="_blank" rel="noopener" class="font-semibold underline underline-offset-[3px]" title="Політика конфіденційності (відкриється в новій вкладці)">політикою конфіденційності</a> та обробкою моїх даних <span class="text-red-700" aria-hidden="true">*</span>
+                    </label>
+                  </div>
+                  <p id="agreementError" class="mt-1.5 hidden text-sm font-medium text-red-700" role="alert"></p>
+                </div>
+              </div>
+
+              <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <p id="formStatus" class="text-sm font-medium text-red-700" aria-live="polite"></p>
+                <button type="submit" id="submitBtn" class="button inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-sage px-8 py-3 text-center font-semibold text-white transition duration-200 hover:bg-deep hover:shadow-md focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 active:scale-95 disabled:cursor-wait disabled:opacity-60 motion-reduce:transform-none motion-reduce:transition-none sm:w-auto">
+                  Надіслати
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Модальне вікно: імітація успішного надсилання -->
+          <div id="successModal" class="modal-overlay fixed inset-0 z-[70] hidden items-center justify-center bg-deep/70 p-4 backdrop-blur-sm">
+            <div class="modal-card w-full max-w-md rounded-2xl bg-cream p-6 text-center shadow-2xl sm:p-8" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalText">
+              <div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-green-100 text-green-800" aria-hidden="true">
+                <svg class="h-7 w-7" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"></path></svg>
+              </div>
+              <h3 id="modalTitle" class="mb-3 font-display text-2xl font-semibold leading-tight text-sage">Дякуємо, <span id="modalName">гостю</span>!</h3>
+              <p id="modalText" class="mb-6 text-muted">
+                Форма успішно пройшла клієнтську валідацію. Це демонстрація успішного надсилання:
+                дані не передаються на сервер.
+              </p>
+              <button type="button" id="closeModalBtn" class="button inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-sage px-8 py-3 font-semibold text-white transition duration-200 hover:bg-deep focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 motion-reduce:transition-none">
+                Закрити
+              </button>
+            </div>
+          </div>
+        </section>
+
         <section class="final-cta scroll-mt-28 bg-sage py-16 text-center text-white" aria-labelledby="cta-title" id="section-3">
           <div class="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 xl:px-10">
             <div class="eyebrow mb-3 text-xs font-semibold uppercase tracking-[0.18em]">
@@ -1211,7 +1325,7 @@
           <h2 class="mb-3 font-display text-2xl font-semibold !leading-[1.15] text-white">
             Навігація
           </h2>
-          <a href="#services" class="flex min-h-11 items-center transition-colors duration-200 [overflow-wrap:anywhere] hover:text-white hover:underline hover:underline-offset-[5px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#C5B39A] motion-reduce:transition-none" title="Послуги">Послуги</a><a href="#cosmetics" class="flex min-h-11 items-center transition-colors duration-200 [overflow-wrap:anywhere] hover:text-white hover:underline hover:underline-offset-[5px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#C5B39A] motion-reduce:transition-none" title="Косметика">Косметика</a><a href="#about" class="flex min-h-11 items-center transition-colors duration-200 [overflow-wrap:anywhere] hover:text-white hover:underline hover:underline-offset-[5px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#C5B39A] motion-reduce:transition-none" title="Про студію">Про студію</a><a href="#reviews" class="flex min-h-11 items-center transition-colors duration-200 [overflow-wrap:anywhere] hover:text-white hover:underline hover:underline-offset-[5px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#C5B39A] motion-reduce:transition-none" title="Відгуки">Відгуки</a>
+          <a href="#services" class="flex min-h-11 items-center transition-colors duration-200 [overflow-wrap:anywhere] hover:text-white hover:underline hover:underline-offset-[5px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#C5B39A] motion-reduce:transition-none" title="Послуги">Послуги</a><a href="#cosmetics" class="flex min-h-11 items-center transition-colors duration-200 [overflow-wrap:anywhere] hover:text-white hover:underline hover:underline-offset-[5px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#C5B39A] motion-reduce:transition-none" title="Косметика">Косметика</a><a href="#about" class="flex min-h-11 items-center transition-colors duration-200 [overflow-wrap:anywhere] hover:text-white hover:underline hover:underline-offset-[5px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#C5B39A] motion-reduce:transition-none" title="Про студію">Про студію</a><a href="#reviews" class="flex min-h-11 items-center transition-colors duration-200 [overflow-wrap:anywhere] hover:text-white hover:underline hover:underline-offset-[5px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#C5B39A] motion-reduce:transition-none" title="Відгуки">Відгуки</a><a href="#contact" class="flex min-h-11 items-center transition-colors duration-200 [overflow-wrap:anywhere] hover:text-white hover:underline hover:underline-offset-[5px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#C5B39A] motion-reduce:transition-none" title="Зворотний зв'язок">Зворотний зв'язок</a>
         </div>
         <div>
           <h2 class="mb-3 font-display text-2xl font-semibold !leading-[1.15] text-white">
@@ -1237,6 +1351,7 @@
     </footer>
     <script src="js/booking.js" defer></script>
     <script src="js/app.js?v=20261104-speed" defer></script>
+    <script src="assets/js/validation.js?v=lab9" defer></script>
     <!-- MEDIA START: асинхронний завантажувач WeatherWidget.io не блокує розбір HTML. -->
     <!-- Погодний скрипт підключається app.js лише біля секції контактів. -->
     <!-- MEDIA END: завантажувач погоди. -->
