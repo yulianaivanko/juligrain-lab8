@@ -22,7 +22,7 @@
 
 ## Публікація
 
-[Відкрити JuliGrain на GitHub Pages](https://yulianaivanko.github.io/juligrain-lab8/)
+[Відкрити JuliGrain на GitHub Pages](https://yulianaivanko.github.io/juligrain-lab8/) · [Vercel (ЛР 9)](https://juligrain-lab9.vercel.app/)
 
 1. У GitHub відкрийте Settings → Pages, виберіть Deploy from a branch, гілку main і папку / (root).
 2. У Vercel натисніть Add New → Project, імпортуйте репозиторій, залиште Framework Preset «Other» і Root Directory «./», натисніть Deploy. Кожен push у main оновлює сайт автоматично.
