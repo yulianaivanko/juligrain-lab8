@@ -38,3 +38,26 @@
   background-position: right 1rem top 0.9rem;
   background-size: 1.25rem;
 }
+
+/* ===== ЛР 10. Плагіни Swiper, Fancybox, Typed.js ===== */
+
+/* Кольори Swiper під палітру JuliGrain */
+.reviews-swiper {
+  --swiper-theme-color: #2c3531;
+  --swiper-pagination-bullet-inactive-color: #c5b39a;
+  --swiper-pagination-bullet-inactive-opacity: 0.6;
+  --swiper-pagination-bullet-size: 10px;
+  padding: 4px 2px;
+}
+
+/* Захист від FOUC: до ініціалізації слайди вже стоять у ряд, а не стовпчиком */
+.reviews-swiper:not(.swiper-initialized) .swiper-wrapper { display: flex; gap: 24px; overflow: hidden; }
+.reviews-swiper:not(.swiper-initialized) .swiper-slide { flex: 0 0 100%; }
+@media (min-width: 768px)  { .reviews-swiper:not(.swiper-initialized) .swiper-slide { flex-basis: calc(50% - 12px); } }
+@media (min-width: 1024px) { .reviews-swiper:not(.swiper-initialized) .swiper-slide { flex-basis: calc(33.333% - 16px); } }
+
+/* Курсор Typed.js у фірмовому золотому кольорі */
+.typed-line .typed-cursor { color: #c5b39a; font-weight: 400; }
+
+/* Fancybox: фон і акцент у тонах сайту */
+.fancybox__container { --fancybox-bg: rgba(32, 43, 38, 0.94); --fancybox-accent-color: #c5b39a; }
