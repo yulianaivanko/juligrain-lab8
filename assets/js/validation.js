@@ -81,13 +81,13 @@
   }
 
   // Загальний помічник: перевірка повертає текст помилки або порожній рядок.
-  // silent = true (під час введення): нову помилку не показуємо, бо людина ще пише
-  // (наприклад, «Мар'» — це незавершене «Мар'яна»). Якщо помилка вже показана
-  // після blur або submit, лише оновлюємо її текст.
+  // silent = true (під час введення): червоне не показуємо, бо людина ще пише
+  // (наприклад, «Мар'» — це незавершене «Мар'яна», «+38050» — недописаний номер).
+  // Помилка з'являється після виходу з поля (blur) або натискання «Надіслати».
   function applyResult(field, message, silent) {
     if (message) {
-      if (!silent || field.input.matches('[aria-invalid="true"]')) showError(field, message);
-      else clearError(field);
+      if (silent) clearError(field);
+      else showError(field, message);
       return false;
     }
     showSuccess(field);
