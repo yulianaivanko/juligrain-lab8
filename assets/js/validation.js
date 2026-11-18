@@ -80,11 +80,14 @@
     error.classList.add("hidden");
   }
 
-  // Загальний помічник: перевірка повертає текст помилки або порожній рядок
+  // Загальний помічник: перевірка повертає текст помилки або порожній рядок.
+  // silent = true (під час введення): нову помилку не показуємо, бо людина ще пише
+  // (наприклад, «Мар'» — це незавершене «Мар'яна»). Якщо помилка вже показана
+  // після blur або submit, лише оновлюємо її текст.
   function applyResult(field, message, silent) {
     if (message) {
-      if (!silent) showError(field, message);
-      else if (!field.input.matches('[aria-invalid="true"]')) clearError(field);
+      if (!silent || field.input.matches('[aria-invalid="true"]')) showError(field, message);
+      else clearError(field);
       return false;
     }
     showSuccess(field);
@@ -200,8 +203,8 @@
     field.input.addEventListener(eventName, (event) => {
       if (key === "phone") handlePhoneInput(event);
       if (key === "message") updateCounter();
-      // До першого blur показуємо лише успіх, а після — повну перевірку в реальному часі
-      validate(!touched.has(key) && key !== "agreement");
+      // Під час введення показуємо лише успіх; нові помилки з'являються після blur або submit
+      validate(key !== "agreement");
       if (key === "agreement") touched.add(key);
       updateStatus();
     });
