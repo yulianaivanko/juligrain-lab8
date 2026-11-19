@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
       Carousel: { transition: "fade" },  // плавне згасання між фото
       Images: {
         zoom: true,                      // зум колесом, кліком і жестом pinch
-        Panzoom: { maxScale: 3 },        // дозволяємо збільшення до 3× навіть для фото 800 px
+        Panzoom: { maxScale: 3 },        // дозволяємо збільшення до 3× для фото 1040×1300 px
       },
       Thumbs: { type: "classic" },       // мініатюри внизу
       Toolbar: {
