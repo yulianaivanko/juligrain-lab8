@@ -6,23 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Студія краси JuliGrain у Львові: стрижки, фарбування, макіяж і догляд. Перегляньте послуги та оберіть час у демонстрації запису або залиште повідомлення через форму зворотного зв'язку." />
     <!-- Критичні ресурси першого екрана отримують ранній пріоритет. -->
-    <link rel="preload" href="assets/images/hero-background.webp" as="image" fetchpriority="high" />
+    <link rel="preload" href="assets/images/hero-background.avif" as="image" type="image/avif" fetchpriority="high" />
     <title>Студія краси JuliGrain у Львові | Онлайн-запис</title>
-    <link rel="stylesheet" href="css/tailwind.css?v=20261117-form" />
-    <link rel="stylesheet" href="css/hero.css?v=2" />
-    <!-- ЛР 10. CSS плагінів через CDN jsDelivr (точні версії) — у head, щоб уникнути FOUC -->
+    <!-- ЛР 12. Один мініфікований CSS (шрифти + Tailwind + hero + стилі плагінів) замість трьох блокуючих файлів -->
+    <link rel="stylesheet" href="css/site.min.css?v=lab12" />
+    <!-- ЛР 12. CSS Swiper і Fancybox більше не блокують рендер: plugins.js підвантажує їх біля секцій -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.css" />
-    <link rel="stylesheet" href="assets/css/styles.css?v=lab10-2" />
     <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml" />
+    <!-- ЛР 12. SEO: канонічна адреса та картка для соцмереж -->
+    <link rel="canonical" href="https://juligrain-lab9.vercel.app/" />
+    <meta name="theme-color" content="#2c3531" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="uk_UA" />
+    <meta property="og:site_name" content="JuliGrain" />
+    <meta property="og:title" content="Студія краси JuliGrain у Львові | Онлайн-запис" />
+    <meta property="og:description" content="Стрижки, фарбування, манікюр, брови й догляд за шкірою у Львові. Розрахуйте вартість курсу та запишіться онлайн." />
+    <meta property="og:url" content="https://juligrain-lab9.vercel.app/" />
+    <meta property="og:image" content="https://juligrain-lab9.vercel.app/assets/images/hero-poster.webp" />
   </head>
   <body class="[&amp;_p]:leading-relaxed [&amp;_a]:focus-visible:outline [&amp;_a]:focus-visible:outline-2 [&amp;_a]:focus-visible:outline-offset-4 [&amp;_a]:focus-visible:outline-gold [&amp;_button]:focus-visible:outline [&amp;_button]:focus-visible:outline-2 [&amp;_button]:focus-visible:outline-offset-4 [&amp;_button]:focus-visible:outline-gold [&amp;_summary]:focus-visible:outline [&amp;_summary]:focus-visible:outline-2 [&amp;_summary]:focus-visible:outline-offset-4 [&amp;_summary]:focus-visible:outline-sage [&amp;_[hidden]]:!hidden bg-cream font-sans text-sage antialiased">
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-[60] focus:bg-white focus:p-4" title="Перейти до вмісту">Перейти до вмісту</a>
     <!-- Шапка з логотипом і навігацією -->
     <header class="header sticky top-0 z-50 border-b border-stone-200 bg-cream shadow-sm">
       <div class="header-inner mx-auto flex min-h-[76px] w-full flex-wrap items-center justify-between gap-3 px-4 py-3 md:min-h-20 md:flex-nowrap md:gap-2 md:px-4 lg:gap-3 lg:px-8">
-        <a class="logo inline-flex min-h-11 items-center gap-2" href="index.html" aria-label="JuliGrain — головна сторінка" title="JuliGrain"><img class="logo-image hidden h-12 w-16 object-contain md:block md:h-10 md:w-12 lg:h-12 lg:w-16" src="assets/icons/logo.svg" alt="" /><span class="logo-name font-sans text-2xl font-bold tracking-wide md:font-display md:text-[1.75rem] md:font-semibold lg:text-3xl" aria-hidden="true">JuliGrain</span></a>
+        <a class="logo inline-flex min-h-11 items-center gap-2" href="index.html" aria-label="JuliGrain — головна сторінка" title="JuliGrain"><img loading="lazy" decoding="async" width="64" height="48" class="logo-image hidden h-12 w-16 object-contain md:block md:h-10 md:w-12 lg:h-12 lg:w-16" src="assets/icons/logo.svg" alt="" /><span class="logo-name font-sans text-2xl font-bold tracking-wide md:font-display md:text-[1.75rem] md:font-semibold lg:text-3xl" aria-hidden="true">JuliGrain</span></a>
         <nav class="navigation [&amp;&gt;a]:flex [&amp;&gt;a]:min-h-11 [&amp;&gt;a]:items-center [&amp;_a:hover]:underline [&amp;_a:hover]:underline-offset-4 order-last hidden w-full flex-col gap-1 border-t border-stone-200 py-3 md:order-none md:flex md:min-w-0 md:flex-1 md:flex-row md:items-center md:justify-center md:gap-2 md:whitespace-nowrap md:border-0 md:py-0 md:text-sm lg:gap-6 lg:text-base" id="site-navigation" aria-label="Головна навігація">
           <details class="relative">
             <summary class="min-h-11 cursor-pointer py-3">Послуги</summary>
@@ -147,7 +154,7 @@
             <div class="service-grid grid grid-cols-1 items-start gap-6 sm:grid-cols-2 lg:grid-cols-3">
               <article class="service-card group" data-category="hair">
                 <div class="overflow-hidden bg-linen">
-                  <img src="assets/images/services-hair.webp" alt="Ілюстративне фото роботи перукаря зі стрижкою" width="960" height="640" loading="lazy" class="aspect-[3/2] w-full object-cover transition duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none" />
+                  <img src="assets/images/services-hair.webp" srcset="assets/images/services-hair-480w.webp 480w, assets/images/services-hair-680w.webp 680w, assets/images/services-hair.webp 800w" sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 92vw" alt="Ілюстративне фото роботи перукаря зі стрижкою" width="960" height="640" loading="lazy" class="aspect-[3/2] w-full object-cover transition duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none" />
                 </div>
                 <div class="service-content">
                   <p class="mb-3 text-xs font-semibold uppercase !leading-relaxed tracking-[0.15em] text-muted">
@@ -423,7 +430,7 @@
               </article>
               <article class="service-card group" data-category="face">
                 <div class="overflow-hidden bg-linen">
-                  <img src="assets/images/services-cosmetology.webp" alt="Ілюстративне фото косметичного догляду за обличчям" width="960" height="640" loading="lazy" class="aspect-[3/2] w-full object-cover transition duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none" />
+                  <img src="assets/images/services-cosmetology.webp" srcset="assets/images/services-cosmetology-480w.webp 480w, assets/images/services-cosmetology-680w.webp 680w, assets/images/services-cosmetology.webp 800w" sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 92vw" alt="Ілюстративне фото косметичного догляду за обличчям" width="960" height="640" loading="lazy" class="aspect-[3/2] w-full object-cover transition duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none" />
                 </div>
                 <div class="service-content">
                   <p class="mb-3 text-xs font-semibold uppercase !leading-relaxed tracking-[0.15em] text-muted">
@@ -626,7 +633,7 @@
               </article>
               <article class="service-card group" data-category="nails">
                 <div class="overflow-hidden bg-linen">
-                  <img src="assets/images/services-manicure.webp" alt="Ілюстративне фото манікюру в нюдових відтінках" width="960" height="640" loading="lazy" class="aspect-[3/2] w-full object-cover transition duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none" />
+                  <img src="assets/images/services-manicure.webp" srcset="assets/images/services-manicure-480w.webp 480w, assets/images/services-manicure-680w.webp 680w, assets/images/services-manicure.webp 800w" sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 92vw" alt="Ілюстративне фото манікюру в нюдових відтінках" width="960" height="640" loading="lazy" class="aspect-[3/2] w-full object-cover transition duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none" />
                 </div>
                 <div class="service-content">
                   <p class="mb-3 text-xs font-semibold uppercase !leading-relaxed tracking-[0.15em] text-muted">
@@ -761,7 +768,7 @@
               </article>
               <article class="service-card group" data-category="face">
                 <div class="overflow-hidden bg-linen">
-                  <img src="assets/images/services-brows.webp" alt="Ілюстративне фото догляду за бровами" width="960" height="640" loading="lazy" class="aspect-[3/2] w-full object-cover transition duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none" />
+                  <img src="assets/images/services-brows.webp" srcset="assets/images/services-brows-480w.webp 480w, assets/images/services-brows-680w.webp 680w, assets/images/services-brows.webp 800w" sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 92vw" alt="Ілюстративне фото догляду за бровами" width="960" height="640" loading="lazy" class="aspect-[3/2] w-full object-cover transition duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none" />
                 </div>
                 <div class="service-content">
                   <p class="mb-3 text-xs font-semibold uppercase !leading-relaxed tracking-[0.15em] text-muted">
@@ -822,7 +829,7 @@
               </article>
               <article class="service-card group" data-category="face">
                 <div class="overflow-hidden bg-linen">
-                  <img src="assets/images/services-lashes.webp" alt="Ілюстративне фото догляду за віями" width="960" height="640" loading="lazy" class="aspect-[3/2] w-full object-cover transition duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none" />
+                  <img src="assets/images/services-lashes.webp" srcset="assets/images/services-lashes-480w.webp 480w, assets/images/services-lashes-680w.webp 680w, assets/images/services-lashes.webp 800w" sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 92vw" alt="Ілюстративне фото догляду за віями" width="960" height="640" loading="lazy" class="aspect-[3/2] w-full object-cover transition duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none" />
                 </div>
                 <div class="service-content">
                   <p class="mb-3 text-xs font-semibold uppercase !leading-relaxed tracking-[0.15em] text-muted">
@@ -865,7 +872,7 @@
               </article>
               <article class="service-card group" data-category="body">
                 <div class="overflow-hidden bg-linen">
-                  <img src="assets/images/services-cryo.webp" alt="Ілюстративне фото неінвазивної апаратної процедури для тіла" width="960" height="640" loading="lazy" class="aspect-[3/2] w-full object-cover transition duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none" />
+                  <img src="assets/images/services-cryo.webp" srcset="assets/images/services-cryo-480w.webp 480w, assets/images/services-cryo-680w.webp 680w, assets/images/services-cryo.webp 800w" sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 92vw" alt="Ілюстративне фото неінвазивної апаратної процедури для тіла" width="960" height="640" loading="lazy" class="aspect-[3/2] w-full object-cover transition duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none" />
                 </div>
                 <div class="service-content">
                   <p class="mb-3 text-xs font-semibold uppercase !leading-relaxed tracking-[0.15em] text-muted">
@@ -1113,24 +1120,24 @@
             </div>
             <div class="flex flex-wrap justify-center gap-3 sm:gap-4">
               <a class="gallery-item group relative block w-[calc(50%-0.375rem)] overflow-hidden rounded-2xl bg-linen focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold sm:w-[calc(50%-0.5rem)] md:w-[calc(20%-0.8rem)]" href="assets/images/gallery-brows.webp" data-fancybox="juligrain-works" data-caption="Корекція та фарбування брів" title="Відкрити фото: Корекція та фарбування брів">
-                <img src="assets/images/gallery-brows-thumb.webp" alt="Корекція та фарбування брів" loading="lazy" width="640" height="800" class="aspect-[4/5] h-full w-full cursor-zoom-in object-cover transition duration-300 group-hover:scale-105 motion-reduce:transition-none" />
-                <span class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/80 to-transparent p-3 text-sm font-medium text-cream">Корекція та фарбування брів</span>
+                <img src="assets/images/gallery-brows-thumb.webp" alt="Брови після корекції форми та фарбування" loading="lazy" decoding="async" width="640" height="800" class="aspect-[4/5] h-full w-full cursor-zoom-in object-cover transition duration-300 group-hover:scale-105 motion-reduce:transition-none" />
+                <span aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/80 to-transparent p-3 text-sm font-medium text-cream">Корекція та фарбування брів</span>
               </a>
               <a class="gallery-item group relative block w-[calc(50%-0.375rem)] overflow-hidden rounded-2xl bg-linen focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold sm:w-[calc(50%-0.5rem)] md:w-[calc(20%-0.8rem)]" href="assets/images/gallery-hair.webp" data-fancybox="juligrain-works" data-caption="Догляд і фарбування волосся" title="Відкрити фото: Догляд і фарбування волосся">
-                <img src="assets/images/gallery-hair-thumb.webp" alt="Догляд і фарбування волосся" loading="lazy" width="640" height="800" class="aspect-[4/5] h-full w-full cursor-zoom-in object-cover transition duration-300 group-hover:scale-105 motion-reduce:transition-none" />
-                <span class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/80 to-transparent p-3 text-sm font-medium text-cream">Догляд і фарбування волосся</span>
+                <img src="assets/images/gallery-hair-thumb.webp" alt="Довге волосся після фарбування й доглядової процедури" loading="lazy" decoding="async" width="640" height="800" class="aspect-[4/5] h-full w-full cursor-zoom-in object-cover transition duration-300 group-hover:scale-105 motion-reduce:transition-none" />
+                <span aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/80 to-transparent p-3 text-sm font-medium text-cream">Догляд і фарбування волосся</span>
               </a>
               <a class="gallery-item group relative block w-[calc(50%-0.375rem)] overflow-hidden rounded-2xl bg-linen focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold sm:w-[calc(50%-0.5rem)] md:w-[calc(20%-0.8rem)]" href="assets/images/gallery-nails-1.webp" data-fancybox="juligrain-works" data-caption="Манікюр: бордо з шимером" title="Відкрити фото: Манікюр: бордо з шимером">
-                <img src="assets/images/gallery-nails-1-thumb.webp" alt="Манікюр: бордо з шимером" loading="lazy" width="640" height="800" class="aspect-[4/5] h-full w-full cursor-zoom-in object-cover transition duration-300 group-hover:scale-105 motion-reduce:transition-none" />
-                <span class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/80 to-transparent p-3 text-sm font-medium text-cream">Манікюр: бордо з шимером</span>
+                <img src="assets/images/gallery-nails-1-thumb.webp" alt="Нігті з бордовим покриттям і шимером" loading="lazy" decoding="async" width="640" height="800" class="aspect-[4/5] h-full w-full cursor-zoom-in object-cover transition duration-300 group-hover:scale-105 motion-reduce:transition-none" />
+                <span aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/80 to-transparent p-3 text-sm font-medium text-cream">Манікюр: бордо з шимером</span>
               </a>
               <a class="gallery-item group relative block w-[calc(50%-0.375rem)] overflow-hidden rounded-2xl bg-linen focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold sm:w-[calc(50%-0.5rem)] md:w-[calc(20%-0.8rem)]" href="assets/images/gallery-nails-2.webp" data-fancybox="juligrain-works" data-caption="Манікюр: ніжний дизайн з лініями" title="Відкрити фото: Манікюр: ніжний дизайн з лініями">
-                <img src="assets/images/gallery-nails-2-thumb.webp" alt="Манікюр: ніжний дизайн з лініями" loading="lazy" width="640" height="800" class="aspect-[4/5] h-full w-full cursor-zoom-in object-cover transition duration-300 group-hover:scale-105 motion-reduce:transition-none" />
-                <span class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/80 to-transparent p-3 text-sm font-medium text-cream">Манікюр: ніжний дизайн з лініями</span>
+                <img src="assets/images/gallery-nails-2-thumb.webp" alt="Нюдовий манікюр з тонкими лініями" loading="lazy" decoding="async" width="640" height="800" class="aspect-[4/5] h-full w-full cursor-zoom-in object-cover transition duration-300 group-hover:scale-105 motion-reduce:transition-none" />
+                <span aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/80 to-transparent p-3 text-sm font-medium text-cream">Манікюр: ніжний дизайн з лініями</span>
               </a>
               <a class="gallery-item group relative block w-[calc(50%-0.375rem)] overflow-hidden rounded-2xl bg-linen focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold sm:w-[calc(50%-0.5rem)] md:w-[calc(20%-0.8rem)]" href="assets/images/gallery-studio.webp" data-fancybox="juligrain-works" data-caption="Простір студії JuliGrain" title="Відкрити фото: Простір студії JuliGrain">
-                <img src="assets/images/gallery-studio-thumb.webp" alt="Простір студії JuliGrain" loading="lazy" width="640" height="800" class="aspect-[4/5] h-full w-full cursor-zoom-in object-cover transition duration-300 group-hover:scale-105 motion-reduce:transition-none" />
-                <span class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/80 to-transparent p-3 text-sm font-medium text-cream">Простір студії JuliGrain</span>
+                <img src="assets/images/gallery-studio-thumb.webp" alt="Інтер'єр кабінету студії JuliGrain" loading="lazy" decoding="async" width="640" height="800" class="aspect-[4/5] h-full w-full cursor-zoom-in object-cover transition duration-300 group-hover:scale-105 motion-reduce:transition-none" />
+                <span aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/80 to-transparent p-3 text-sm font-medium text-cream">Простір студії JuliGrain</span>
               </a>
             </div>
           </div>
@@ -1213,7 +1220,7 @@
             </div>
             <div class="swiper reviews-swiper" aria-label="Слайдер відгуків">
               <div class="swiper-wrapper">
-                <article class="swiper-slide testimonial-card !flex h-auto flex-col justify-between">
+                <div class="swiper-slide testimonial-card !flex h-auto flex-col justify-between">
                   <div>
                     <div class="stars mb-4 text-gold" role="img" aria-label="Оцінка 5 з 5"><span aria-hidden="true">★★★★★</span></div>
                     <p class="text-muted">“Дуже приємна атмосфера та уважний майстер. Результат перевершив очікування.”</p>
@@ -1222,8 +1229,8 @@
                     <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-gold bg-sage font-display text-lg font-semibold text-cream" aria-hidden="true">АК</span>
                     <div><strong class="block">Анна К.</strong><span class="block text-sm text-muted">Стрижка та укладання</span></div>
                   </div>
-                </article>
-                <article class="swiper-slide testimonial-card !flex h-auto flex-col justify-between">
+                </div>
+                <div class="swiper-slide testimonial-card !flex h-auto flex-col justify-between">
                   <div>
                     <div class="stars mb-4 text-gold" role="img" aria-label="Оцінка 5 з 5"><span aria-hidden="true">★★★★★</span></div>
                     <p class="text-muted">“Макіяж виглядав природно й чудово тримався весь вечір. Обов’язково повернуся.”</p>
@@ -1232,8 +1239,8 @@
                     <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-gold bg-sage font-display text-lg font-semibold text-cream" aria-hidden="true">МС</span>
                     <div><strong class="block">Марія С.</strong><span class="block text-sm text-muted">Вечірній макіяж</span></div>
                   </div>
-                </article>
-                <article class="swiper-slide testimonial-card !flex h-auto flex-col justify-between">
+                </div>
+                <div class="swiper-slide testimonial-card !flex h-auto flex-col justify-between">
                   <div>
                     <div class="stars mb-4 text-gold" role="img" aria-label="Оцінка 5 з 5"><span aria-hidden="true">★★★★★</span></div>
                     <p class="text-muted">“JuliGrain — місце, де справді можна відпочити й довірити себе професіоналам.”</p>
@@ -1242,8 +1249,8 @@
                     <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-gold bg-sage font-display text-lg font-semibold text-cream" aria-hidden="true">ОП</span>
                     <div><strong class="block">Олена П.</strong><span class="block text-sm text-muted">Догляд за обличчям</span></div>
                   </div>
-                </article>
-                <article class="swiper-slide testimonial-card !flex h-auto flex-col justify-between">
+                </div>
+                <div class="swiper-slide testimonial-card !flex h-auto flex-col justify-between">
                   <div>
                     <div class="stars mb-4 text-gold" role="img" aria-label="Оцінка 5 з 5"><span aria-hidden="true">★★★★★</span></div>
                     <p class="text-muted">“Акуратне покриття, яке тримається вже третій тиждень. Записалася онлайн за хвилину.”</p>
@@ -1252,8 +1259,8 @@
                     <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-gold bg-sage font-display text-lg font-semibold text-cream" aria-hidden="true">ІД</span>
                     <div><strong class="block">Ірина Д.</strong><span class="block text-sm text-muted">Манікюр</span></div>
                   </div>
-                </article>
-                <article class="swiper-slide testimonial-card !flex h-auto flex-col justify-between">
+                </div>
+                <div class="swiper-slide testimonial-card !flex h-auto flex-col justify-between">
                   <div>
                     <div class="stars mb-4 text-gold" role="img" aria-label="Оцінка 5 з 5"><span aria-hidden="true">★★★★★</span></div>
                     <p class="text-muted">“Погляд став виразнішим без туші. Майстриня все пояснила й порадила догляд.”</p>
@@ -1262,8 +1269,8 @@
                     <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-gold bg-sage font-display text-lg font-semibold text-cream" aria-hidden="true">СЛ</span>
                     <div><strong class="block">Софія Л.</strong><span class="block text-sm text-muted">Ламінування вій</span></div>
                   </div>
-                </article>
-                <article class="swiper-slide testimonial-card !flex h-auto flex-col justify-between">
+                </div>
+                <div class="swiper-slide testimonial-card !flex h-auto flex-col justify-between">
                   <div>
                     <div class="stars mb-4 text-gold" role="img" aria-label="Оцінка 5 з 5"><span aria-hidden="true">★★★★★</span></div>
                     <p class="text-muted">“Після курсу процедур шкіра помітно підтягнулася. Дякую за турботу й чай!”</p>
@@ -1272,7 +1279,7 @@
                     <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-gold bg-sage font-display text-lg font-semibold text-cream" aria-hidden="true">ХМ</span>
                     <div><strong class="block">Христина М.</strong><span class="block text-sm text-muted">Cryo T-Shock</span></div>
                   </div>
-                </article>
+                </div>
               </div>
               <div class="reviews-pagination swiper-pagination !static mt-8"></div>
             </div>
@@ -1503,7 +1510,7 @@
     <footer class="footer [&amp;_a]:break-words scroll-mt-28 bg-deep py-12 font-sans text-stone-200" id="contacts">
       <div class="footer-grid mx-auto grid w-full max-w-7xl grid-cols-1 gap-8 px-4 md:grid-cols-2 md:px-6 lg:grid-cols-4 lg:px-8 xl:px-10">
         <div>
-          <a class="logo inline-flex items-center gap-2 transition-colors duration-200 hover:text-white hover:underline hover:underline-offset-[5px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#C5B39A] motion-reduce:transition-none" href="index.html" aria-label="JuliGrain — головна сторінка" title="JuliGrain"><img class="logo-image h-12 w-16 object-contain brightness-0 invert" src="assets/icons/logo.svg" alt="" /><span class="logo-name font-display text-3xl font-semibold tracking-wide" aria-hidden="true">JuliGrain</span></a>
+          <a class="logo inline-flex items-center gap-2 transition-colors duration-200 hover:text-white hover:underline hover:underline-offset-[5px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#C5B39A] motion-reduce:transition-none" href="index.html" aria-label="JuliGrain — головна сторінка" title="JuliGrain"><img loading="lazy" decoding="async" width="64" height="48" class="logo-image h-12 w-16 object-contain brightness-0 invert" src="assets/icons/logo.svg" alt="" /><span class="logo-name font-display text-3xl font-semibold tracking-wide" aria-hidden="true">JuliGrain</span></a>
           <p class="leading-[1.7]">Природна краса та гармонія.</p>
         </div>
         <div>
@@ -1534,16 +1541,14 @@
         <span>© 2026 JuliGrain</span><span>Усі права захищено.</span>
       </div>
     </footer>
-    <script src="js/booking.js" defer></script>
-    <script src="js/app.js?v=20261104-speed" defer></script>
-    <script src="assets/js/validation.js?v=lab9-3" defer></script>
-    <!-- ЛР 10. JS-плагіни на Vanilla JS через CDN — у кінці body, після них власна ініціалізація -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.umd.js" defer></script>
+    <script src="js/booking.min.js?v=lab12" defer></script>
+    <script src="js/app.min.js?v=lab12" defer></script>
+    <script src="assets/js/validation.min.js?v=lab12" defer></script>
+    <!-- ЛР 10/12. Typed.js потрібен у hero одразу; Swiper і Fancybox plugins.js завантажує ліниво -->
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js" defer></script>
-    <script src="assets/js/plugins.js?v=lab10" defer></script>
+    <script src="assets/js/plugins.min.js?v=lab12" defer></script>
     <!-- ЛР 11. Інтерактивний віджет: калькулятор б'юті-курсу -->
-    <script src="js/widget.js?v=lab11" defer></script>
+    <script src="js/widget.min.js?v=lab12" defer></script>
     <!-- MEDIA START: асинхронний завантажувач WeatherWidget.io не блокує розбір HTML. -->
     <!-- Погодний скрипт підключається app.js лише біля секції контактів. -->
     <!-- MEDIA END: завантажувач погоди. -->

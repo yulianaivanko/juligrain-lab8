@@ -1,5 +1,7 @@
 .hero {
   background: #29332e url("../assets/images/hero-background.webp") right center / cover no-repeat;
+  /* ЛР 12: AVIF удвічі легший за WebP (28 КБ проти 56 КБ); старі браузери візьмуть WebP */
+  background-image: image-set(url("../assets/images/hero-background.avif") type("image/avif"), url("../assets/images/hero-background.webp") type("image/webp"));
 }
 
 .hero::after {
