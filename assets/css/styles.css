@@ -99,3 +99,8 @@ iframe:focus { outline: 3px solid #8c7a6b; outline-offset: 4px; }
 footer a:focus-visible { outline-color: #c5b39a !important; }
 /* зірки рейтингу на світлих картках відгуків */
 .testimonial-card .stars { color: #8c7a6b; }
+
+/* ЛР 12. Performance: друк Typed.js не перераховує макет усієї сторінки —
+   змінний текст ізольовано у власному блоці (contain: layout paint) */
+#typed-text { display: inline-block; contain: layout paint; vertical-align: top; }
+/* layout containment прибирає базову лінію, тому вирівнюємо за верхом рядка */

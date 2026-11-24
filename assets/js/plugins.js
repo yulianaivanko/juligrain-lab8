@@ -107,16 +107,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }));
   }
 
-  /* 3. Typed.js: ефект друку в hero (потрібен одразу, тому підключений у HTML з defer) */
-  if (window.Typed && document.querySelector("#typed-text") && !reduceMotion) {
+  /* 3. Typed.js: ефект друку в hero.
+     ЛР 12: кожен надрукований символ змушує браузер перераховувати стилі й макет великої сторінки
+     (Lighthouse: Style & Layout 1,5 с, TBT до 430 мс). Тому друк стартує через 1 с після події load,
+     коли основне завантаження вже завершене; до того в рядку стоїть статичний текст із HTML. */
+  const startTyped = () => setTimeout(() => {
+    if (!window.Typed || !document.querySelector("#typed-text") || reduceMotion) return;
     new Typed("#typed-text", {
       strings: ["стрижки й фарбування", "манікюр без поспіху", "брови та вії", "догляд за шкірою"],
       typeSpeed: 55,     // швидкість друку, мс на символ
       backSpeed: 30,     // швидкість стирання
       backDelay: 1600,   // пауза перед стиранням
-      startDelay: 400,
       loop: true,
       smartBackspace: true,
     });
-  }
+  }, 1000);
+  if (document.readyState === "complete") startTyped();
+  else window.addEventListener("load", startTyped, { once: true });
 });
