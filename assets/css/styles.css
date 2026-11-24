@@ -94,7 +94,8 @@ html body .fancybox__container { --fancybox-bg: rgba(32, 43, 38, 0.94); --fancyb
    3.91:1 на cream, 3.59:1 на linen і 3.08:1 на sage — один колір працює і на світлих, і на темних секціях. */
 a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible,
 select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible { outline-color: #8c7a6b !important; }
-iframe:focus { outline: 3px solid #8c7a6b; outline-offset: 4px; }
+/* фокус усередині вбудованого відео/карти: сам iframe збігається лише з :focus-within */
+iframe:focus-within { outline: 3px solid #8c7a6b; outline-offset: 4px; }
 /* у темному футері золотий контур має 7.17:1 — залишаємо фірмовий */
 footer a:focus-visible { outline-color: #c5b39a !important; }
 /* зірки рейтингу на світлих картках відгуків */
