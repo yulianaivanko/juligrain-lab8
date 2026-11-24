@@ -1,0 +1,72 @@
+# ЛР 12. CI/CD конвеєр JuliGrain: Push → Test (CI) → Deploy (CD) на Vercel.
+# CI: перевірка синтаксису JS і автоматичний Lighthouse-аудит (Lighthouse CI) з порогами якості.
+# CD: якщо тести пройдені і це push у main — продакшн-деплой через Vercel CLI.
+name: CI/CD Production Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Не запускати два деплої одночасно: новий push скасовує старий незавершений
+concurrency:
+  group: production-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: CI — перевірка коду та Lighthouse
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check JavaScript syntax
+        run: |
+          for f in js/*.js assets/js/*.js; do
+            node --check "$f" && echo "OK  $f"
+          done
+
+      - name: Check required SEO files
+        run: |
+          test -f robots.txt && test -f sitemap.xml
+          grep -q '<meta name="description"' index.html
+          grep -q '<link rel="canonical"' index.html
+          echo "SEO files and meta tags are present"
+
+      - name: Lighthouse CI audit
+        run: npx --yes @lhci/cli@0.15.x autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+  deploy:
+    name: CD — деплой на Vercel (production)
+    needs: test
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://juligrain-lab9.vercel.app
+    env:
+      # ID команди та проєкту Vercel не є секретами; секретом є лише токен
+      VERCEL_ORG_ID: team_KKQbJZ2eU2UP8TJpYrJD2XQr
+      VERCEL_PROJECT_ID: prj_KZANCDN2AXd6999L2qBOcZ55utyl
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }}

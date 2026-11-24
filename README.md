@@ -53,3 +53,9 @@ HTML, CSS, Tailwind CSS, JavaScript, Swiper.js, Fancybox, Typed.js, власни
 
 Після публікації перевірте сайт на телефоні та комп’ютері.
 Сайт автоматично оновлюється на Netlify після кожного push.
+## ЛР 12. Аудит Lighthouse, оптимізація та CI/CD
+
+- **Продуктивність:** Swiper і Fancybox (JS + CSS) підвантажуються лише біля своїх секцій; один мініфікований `css/site.min.css` замість трьох блокуючих CSS; власні скрипти — `*.min.js` (зборка `tools/build_js.cjs`); hero у AVIF (28 КБ замість 56 КБ); `srcset/sizes` для фото послуг; кешування зображень і шрифтів на 1 рік.
+- **Доступність:** слайди відгуків — `<div role="group">` замість `<article>`; alt галереї не дублює підпис; крапки слайдера 48×48 px; контур фокусу `#8C7A6B` (≥ 3:1 на світлому й темному тлі).
+- **SEO:** canonical, Open Graph, `robots.txt`, `sitemap.xml`.
+- **CI/CD:** `.github/workflows/deploy.yml` — на кожен push у `main` GitHub Actions перевіряє JS, запускає Lighthouse CI (`lighthouserc.json`) і лише після успіху деплоїть сайт на Vercel (`VERCEL_TOKEN` у Secrets).

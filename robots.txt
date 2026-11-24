@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://juligrain-lab9.vercel.app/sitemap.xml

@@ -60,4 +60,42 @@
 .typed-line .typed-cursor { color: #c5b39a; font-weight: 400; }
 
 /* Fancybox: фон і акцент у тонах сайту */
-.fancybox__container { --fancybox-bg: rgba(32, 43, 38, 0.94); --fancybox-accent-color: #c5b39a; }
+/* ЛР 12: CSS Fancybox тепер підключається пізніше, тому підвищуємо специфічність */
+html body .fancybox__container { --fancybox-bg: rgba(32, 43, 38, 0.94); --fancybox-accent-color: #c5b39a; }
+
+/* ===== ЛР 12. Accessibility: області дотику крапок слайдера 48×48 px (Lighthouse target-size) ===== */
+.reviews-pagination { display: flex; justify-content: center; gap: 0; }
+.reviews-swiper .reviews-pagination .swiper-pagination-bullet {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  margin: 0 !important;
+  border-radius: 9999px;
+  background: transparent;
+  opacity: 1;
+}
+.reviews-swiper .reviews-pagination .swiper-pagination-bullet::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background: #8c7a6b;
+  transition: transform 0.2s, background-color 0.2s;
+}
+.reviews-swiper .reviews-pagination .swiper-pagination-bullet-active::after { background: #2c3531; transform: scale(1.25); }
+.reviews-swiper .reviews-pagination .swiper-pagination-bullet:focus-visible { outline: 3px solid #8c7a6b; outline-offset: -6px; }
+@media (prefers-reduced-motion: reduce) { .reviews-swiper .reviews-pagination .swiper-pagination-bullet::after { transition: none; } }
+
+/* ===== ЛР 12. Контраст фокусу та іконок (WCAG 1.4.11: не менше 3:1) =====
+   Золотий #C5B39A на світлому тлі дає лише 1.94:1. Беремо коричневий #8C7A6B з тієї ж палітри:
+   3.91:1 на cream, 3.59:1 на linen і 3.08:1 на sage — один колір працює і на світлих, і на темних секціях. */
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible { outline-color: #8c7a6b !important; }
+iframe:focus { outline: 3px solid #8c7a6b; outline-offset: 4px; }
+/* у темному футері золотий контур має 7.17:1 — залишаємо фірмовий */
+footer a:focus-visible { outline-color: #c5b39a !important; }
+/* зірки рейтингу на світлих картках відгуків */
+.testimonial-card .stars { color: #8c7a6b; }
