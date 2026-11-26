@@ -71,7 +71,7 @@
     root.querySelectorAll("[data-calc]").forEach((node) => {
       el[node.dataset.calc.replace(/-(\w)/g, (_, c) => c.toUpperCase())] = node;
     });
-    const required = ["form", "category", "service", "list", "empty", "total", "count", "duration", "send"];
+    const required = ["form", "open", "list", "empty", "total", "count", "duration", "send"];
     const missing = required.filter((key) => !el[key]);
     if (missing.length) {
       console.warn("Калькулятор візиту: не знайдено елементи", missing);
@@ -80,30 +80,15 @@
 
     const groups = readPriceList(document);
     if (!groups.length) {
-      el.category.innerHTML = "";
-      el.category.append(new Option("Прайс недоступний", ""));
-      el.category.disabled = el.service.disabled = true;
+      el.open.disabled = true;
+      if (el.openLabel) el.openLabel.textContent = "Прайс недоступний";
+      if (el.openHint) el.openHint.textContent = "Запишіться за телефоном +380 77 888 35 35";
       el.note.textContent = "Не вдалося завантажити прайс. Зателефонуйте нам, і ми все розрахуємо.";
       return;
     }
     const byId = new Map();
     groups.forEach((g) => g.services.forEach((s) => byId.set(s.id, { ...s, group: g.name })));
     const selected = [];
-
-    // ---------- Списки напрямів і послуг ----------
-    el.category.innerHTML = "";
-    groups.forEach((g, index) => el.category.append(new Option(g.name, String(index))));
-
-    function fillServices() {
-      const group = groups[Number(el.category.value)] || groups[0];
-      el.service.innerHTML = "";
-      el.service.append(new Option("Оберіть послугу", ""));
-      group.services.forEach((s) => {
-        const time = s.minutes ? `, ${formatDuration(s.minutes)}` : "";
-        el.service.append(new Option(`${s.name} — ${formatUAH(s.price)}${time}`, s.id));
-      });
-      setError(el.service, el.serviceError, "");
-    }
 
     function setError(input, box, message) {
       if (!box) return;
@@ -116,16 +101,23 @@
     }
 
     // ---------- Додавання й видалення ----------
-    function add() {
-      const service = byId.get(el.service.value);
-      if (!service) return setError(el.service, el.serviceError, MSG.noService);
-      if (selected.some((s) => s.id === service.id)) return setError(el.service, el.serviceError, MSG.duplicate);
-      if (selected.length >= MAX_ITEMS) return setError(el.service, el.serviceError, MSG.tooMany);
-      setError(el.service, el.serviceError, "");
+    function showServiceError(message) {
+      if (!el.serviceError) return;
+      el.serviceError.textContent = message;
+      el.serviceError.classList.toggle("hidden", !message);
+    }
+
+    /** Додає послугу за id. Повертає текст помилки або "". */
+    function add(id) {
+      const service = byId.get(id);
+      if (!service) return MSG.noService;
+      if (selected.some((s) => s.id === service.id)) return MSG.duplicate;
+      if (selected.length >= MAX_ITEMS) return MSG.tooMany;
       selected.push(service);
-      el.service.value = "";
+      showServiceError("");
       render();
       if (el.listBox) el.listBox.scrollTop = el.listBox.scrollHeight;
+      return "";
     }
 
     function remove(id) {
@@ -134,7 +126,7 @@
       selected.splice(index, 1);
       render();
       const buttons = el.list.querySelectorAll("button");
-      (buttons[Math.min(index, buttons.length - 1)] || el.service).focus();
+      (buttons[Math.min(index, buttons.length - 1)] || el.open).focus();
     }
 
     /** Бажана дата: порожня (необов'язково) або не раніше за сьогодні. */
@@ -196,6 +188,147 @@
       const date = dateValue();
       if (el.date) setError(el.date, el.dateError, date.error || "");
       el.send.disabled = !selected.length || Boolean(recipient.error) || Boolean(date.error);
+      if (el.openLabel) el.openLabel.textContent = selected.length ? "Додати ще послугу" : "Обрати послуги";
+      if (el.openHint) el.openHint.textContent = selected.length ? `Обрано: ${selected.length} з ${MAX_ITEMS}` : "Пошук по всьому прайсу салону";
+      if (picker && picker.open) renderPicker();
+    }
+
+    // ---------- Вікно вибору послуг: пошук, напрями, додавання одним дотиком ----------
+    const picker = document.getElementById("service-picker");
+    const pickerList = picker && picker.querySelector("[data-picker-list]");
+    const pickerChips = picker && picker.querySelector("[data-picker-chips]");
+    const pickerSearch = picker && picker.querySelector("#picker-search");
+    const pickerMsg = picker && picker.querySelector("[data-picker-msg]");
+    let activeGroup = -1; // -1 — усі напрями
+
+    const normalize = (text) => text.toLowerCase().replace(/[ʼ’']/g, "'");
+
+    function pickerMessage(message) {
+      pickerMsg.textContent = message;
+      pickerMsg.classList.toggle("hidden", !message);
+    }
+
+    function renderChips() {
+      const chip = (label, index) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className =
+          "min-h-10 shrink-0 whitespace-nowrap rounded-full border border-stone-300 px-4 py-2 text-sm transition hover:border-sage aria-pressed:border-sage aria-pressed:bg-sage aria-pressed:text-white";
+        b.textContent = label;
+        b.setAttribute("aria-pressed", String(index === activeGroup));
+        b.addEventListener("click", () => {
+          activeGroup = index;
+          renderChips();
+          renderPicker();
+          pickerList.scrollTop = 0;
+        });
+        return b;
+      };
+      pickerChips.replaceChildren(chip("Усі", -1), ...groups.map((g, i) => chip(g.name, i)));
+    }
+
+    function renderPicker() {
+      const query = normalize(pickerSearch.value.trim());
+      const nodes = [];
+      groups.forEach((g, gi) => {
+        if (activeGroup !== -1 && gi !== activeGroup) return;
+        const items = g.services.filter((s) => !query || normalize(s.name).includes(query));
+        if (!items.length) return;
+        const heading = document.createElement("p");
+        heading.className = "sticky top-0 z-10 bg-cream pb-1 pt-4 text-xs font-semibold uppercase tracking-[0.12em] text-muted";
+        heading.textContent = g.name;
+        nodes.push(heading);
+        items.forEach((s) => {
+          const chosen = selected.some((x) => x.id === s.id);
+          const row = document.createElement("button");
+          row.type = "button";
+          row.dataset.id = s.id;
+          row.setAttribute("aria-pressed", String(chosen));
+          row.className =
+            "group/row flex w-full items-center justify-between gap-3 border-b border-stone-200 py-3 text-left transition hover:bg-linen/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-gold";
+          const info = document.createElement("span");
+          info.className = "min-w-0";
+          const name = document.createElement("span");
+          name.className = "block text-[15px] leading-snug";
+          name.textContent = s.name;
+          const meta = document.createElement("span");
+          meta.className = "mt-0.5 block text-sm text-muted";
+          meta.textContent = [formatUAH(s.price), s.minutes ? formatDuration(s.minutes) : "час уточнюється"].join(" · ");
+          info.append(name, meta);
+          const icon = document.createElement("span");
+          icon.setAttribute("aria-hidden", "true");
+          icon.className = chosen
+            ? "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sage text-white"
+            : "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-sage text-xl leading-none text-sage transition group-hover/row:bg-sage group-hover/row:text-white";
+          icon.textContent = chosen ? "✓" : "+";
+          row.setAttribute("aria-label", `${s.name}, ${formatUAH(s.price)}${chosen ? ", у візиті — натисніть, щоб прибрати" : ""}`);
+          row.append(info, icon);
+          nodes.push(row);
+        });
+      });
+      if (!nodes.length) {
+        const empty = document.createElement("p");
+        empty.className = "py-10 text-center text-muted";
+        empty.textContent = "Нічого не знайдено. Спробуйте інше слово або напрям «Усі».";
+        nodes.push(empty);
+      }
+      pickerList.replaceChildren(...nodes);
+      const total = selected.reduce((sum, s) => sum + s.price, 0);
+      picker.querySelector("[data-picker-count]").textContent = selected.length ? `Обрано: ${selected.length}` : "Нічого не обрано";
+      picker.querySelector("[data-picker-total]").textContent = selected.length ? formatUAH(total) : "";
+    }
+
+    function closePicker() {
+      if (!picker.open || picker.classList.contains("is-closing")) return;
+      picker.classList.add("is-closing");
+      setTimeout(() => {
+        picker.classList.remove("is-closing");
+        picker.close();
+      }, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 180);
+    }
+
+    if (picker && typeof picker.showModal === "function") {
+      el.open.addEventListener("click", () => {
+        pickerSearch.value = "";
+        pickerMessage("");
+        renderChips();
+        renderPicker();
+        pickerList.scrollTop = 0;
+        document.documentElement.classList.add("overflow-hidden");
+        picker.showModal();
+        // на телефоні не відкриваємо клавіатуру одразу — спершу видно список
+        if (matchMedia("(pointer: fine)").matches) pickerSearch.focus();
+      });
+      pickerList.addEventListener("click", (event) => {
+        const row = event.target.closest("button[data-id]");
+        if (!row) return;
+        const id = row.dataset.id;
+        if (selected.some((s) => s.id === id)) {
+          selected.splice(selected.findIndex((s) => s.id === id), 1);
+          pickerMessage("");
+          render();
+        } else {
+          pickerMessage(add(id));
+        }
+        renderPicker();
+        pickerList.querySelector(`button[data-id="${CSS.escape(id)}"]`)?.focus({ preventScroll: true });
+      });
+      pickerSearch.addEventListener("input", () => {
+        renderPicker();
+        pickerList.scrollTop = 0;
+      });
+      picker.querySelectorAll("[data-picker-close]").forEach((b) => b.addEventListener("click", closePicker));
+      picker.addEventListener("cancel", (event) => {
+        event.preventDefault();
+        closePicker();
+      });
+      picker.addEventListener("click", (event) => {
+        if (event.target === picker) closePicker();
+      });
+      picker.addEventListener("close", () => {
+        document.documentElement.classList.remove("overflow-hidden");
+        el.open.focus();
+      });
     }
 
     // ---------- Вікно підтвердження запису: ім'я, телефон, коментар ----------
@@ -322,16 +455,11 @@
       });
       dialog.addEventListener("close", () => {
         document.documentElement.classList.remove("overflow-hidden");
-        (el.send.disabled ? el.service : el.send).focus();
+        (el.send.disabled ? el.open : el.send).focus();
       });
     }
 
-    el.category.addEventListener("change", fillServices);
-    el.service.addEventListener("change", () => setError(el.service, el.serviceError, ""));
-    el.form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      add();
-    });
+    el.form.addEventListener("submit", (event) => event.preventDefault());
     if (el.gift) el.gift.addEventListener("change", render);
     if (el.recipient) el.recipient.addEventListener("input", render);
     if (el.date) {
@@ -341,7 +469,6 @@
     }
     el.send.addEventListener("click", openBooking);
 
-    fillServices();
     render();
   }
 

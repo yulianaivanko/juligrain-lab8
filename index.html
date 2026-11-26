@@ -9,7 +9,7 @@
     <link rel="preload" href="assets/images/hero-background.avif" as="image" type="image/avif" fetchpriority="high" />
     <title>Студія краси JuliGrain у Львові | Онлайн-запис</title>
     <!-- Один мініфікований CSS: шрифти, Tailwind, hero і стилі плагінів -->
-    <link rel="stylesheet" href="css/site.min.css?v=20261126i" />
+    <link rel="stylesheet" href="css/site.min.css?v=20261126k" />
     <!-- CSS Swiper і Fancybox не блокують рендер: plugins.js підвантажує їх біля секцій -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml" />
@@ -912,23 +912,16 @@
             </div>
 
             <div class="grid gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-8">
-              <form class="calc-form min-w-0 rounded-2xl border border-stone-300 bg-cream p-5 shadow-ambient sm:p-8" action="#" novalidate aria-label="Вибір послуг для візиту" data-calc="form">
+              <form class="calc-form flex min-w-0 flex-col rounded-2xl border border-stone-300 bg-cream p-5 shadow-ambient sm:p-8" action="#" novalidate aria-label="Вибір послуг для візиту" data-calc="form">
                 <div class="grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
-                  <div class="min-w-0">
-                    <label for="calc-category" class="mb-2 block text-sm font-semibold text-sage">Напрям</label>
-                    <select id="calc-category" name="category" data-calc="category" class="form-field block h-12 min-h-12 w-full rounded-lg border border-stone-300 bg-white px-4 py-3 text-base text-sage transition duration-200 hover:border-stone-400 focus:border-sage focus:outline-none focus:ring-2 focus:ring-gold/60 motion-reduce:transition-none">
-                      <option value="">Завантажуємо прайс…</option>
-                    </select>
-                  </div>
-                  <div class="min-w-0">
-                    <label for="calc-service" class="mb-2 block text-sm font-semibold text-sage">Послуга</label>
-                    <select id="calc-service" name="service" aria-describedby="calc-service-error" aria-invalid="false" data-calc="service" class="form-field block h-12 min-h-12 w-full rounded-lg border border-stone-300 bg-white px-4 py-3 text-base text-sage transition duration-200 hover:border-stone-400 focus:border-sage focus:outline-none focus:ring-2 focus:ring-gold/60 motion-reduce:transition-none">
-                      <option value="">Оберіть послугу</option>
-                    </select>
-                  </div>
                   <div class="min-w-0 md:col-span-2">
-                    <button type="submit" data-calc="add" class="button inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg border border-sage bg-transparent px-6 py-3 text-center font-semibold text-sage transition duration-200 hover:bg-sage hover:text-white focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 active:scale-95 motion-reduce:transform-none motion-reduce:transition-none sm:w-auto">
-                      <span aria-hidden="true">+</span> Додати до візиту
+                    <p class="mb-2 block text-sm font-semibold text-sage">Послуги</p>
+                    <button type="button" data-calc="open" aria-haspopup="dialog" aria-describedby="calc-service-error" class="group flex min-h-[4.75rem] w-full items-center justify-between gap-4 rounded-xl border border-dashed border-sage/50 bg-white px-4 py-3 text-left transition duration-200 hover:border-sage hover:bg-linen focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold disabled:cursor-not-allowed disabled:opacity-60 motion-reduce:transition-none">
+                      <span class="flex min-w-0 items-center gap-3">
+                        <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sage text-2xl leading-none text-white transition-transform duration-200 group-hover:rotate-90 motion-reduce:transition-none" aria-hidden="true">+</span>
+                        <span class="min-w-0"><span class="block font-semibold text-sage" data-calc="open-label">Обрати послуги</span><span class="block text-sm text-muted" data-calc="open-hint">Пошук по всьому прайсу салону</span></span>
+                      </span>
+                      <svg class="h-5 w-5 shrink-0 text-muted transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"></path></svg>
                     </button>
                     <div class="min-h-[1.75rem]"><p id="calc-service-error" class="hidden pt-1.5 text-sm font-medium text-red-700" role="alert" data-calc="service-error"></p></div>
                   </div>
@@ -959,13 +952,18 @@
                     <div class="min-h-[1.75rem]"><p id="calc-recipient-error" class="hidden pt-1.5 text-sm font-medium text-red-700" role="alert" data-calc="recipient-error"></p></div>
                   </div>
                 </div>
+                <ol class="mt-auto grid gap-3 border-t border-stone-200 pt-5 text-sm text-muted sm:grid-cols-3" aria-label="Як записатися">
+                  <li class="flex items-start gap-3"><span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-linen font-semibold text-sage" aria-hidden="true">1</span>Оберіть одну або кілька послуг</li>
+                  <li class="flex items-start gap-3"><span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-linen font-semibold text-sage" aria-hidden="true">2</span>Вкажіть зручні дату й час</li>
+                  <li class="flex items-start gap-3"><span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-linen font-semibold text-sage" aria-hidden="true">3</span>Залиште ім'я й телефон — ми передзвонимо</li>
+                </ol>
               </form>
 
               <aside class="flex min-w-0 flex-col rounded-2xl bg-sage p-5 text-white shadow-ambient sm:p-8" aria-labelledby="calc-result-title">
                 <h3 id="calc-result-title" class="mb-4 font-display text-2xl font-semibold leading-tight">Ваш візит</h3>
-                <div class="relative h-44 lg:h-auto lg:min-h-[6rem] lg:flex-1">
+                <div class="relative h-56 lg:h-auto lg:min-h-[11rem] lg:flex-1">
                   <div class="calc-list absolute inset-0 -mr-2 overflow-y-auto overscroll-contain pr-2" data-calc="list-box">
-                    <p class="rounded-lg border border-dashed border-white/30 px-4 py-4 text-sm text-stone-300" data-calc="empty">Поки що порожньо. Оберіть послугу й натисніть «Додати до візиту».</p>
+                    <p class="rounded-lg border border-dashed border-white/30 px-4 py-4 text-sm text-stone-300" data-calc="empty">Поки що порожньо. Натисніть «Обрати послуги» й додайте все, що хочете зробити.</p>
                     <ul class="grid gap-2" aria-label="Обрані послуги" data-calc="list"></ul>
                   </div>
                 </div>
@@ -1365,6 +1363,33 @@
       </div>
     </dialog>
 
+    <!-- Вибір послуг для калькулятора візиту (наповнює js/widget.js) -->
+    <dialog id="service-picker" class="price-dialog m-auto h-[min(88vh,48rem)] w-[min(40rem,calc(100%-2rem))] max-h-[min(88vh,48rem)] overflow-hidden rounded-2xl bg-cream p-0 text-sage shadow-2xl" aria-labelledby="picker-title">
+      <div class="flex h-full flex-col">
+        <div class="flex items-start justify-between gap-4 px-5 pt-4 sm:px-8 sm:pt-6">
+          <div class="min-w-0">
+            <p class="mb-1 text-xs font-semibold uppercase tracking-[0.15em] text-muted">Онлайн-запис</p>
+            <h2 id="picker-title" class="font-display text-3xl font-semibold leading-tight">Оберіть послуги</h2>
+          </div>
+          <button type="button" class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-stone-300 text-xl transition hover:border-sage hover:bg-linen" aria-label="Закрити" data-picker-close>×</button>
+        </div>
+        <div class="border-b border-stone-200 px-5 pb-3 pt-3 sm:px-8">
+          <label for="picker-search" class="sr-only">Пошук послуги</label>
+          <div class="relative">
+            <svg class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+            <input type="search" id="picker-search" placeholder="Пошук: стрижка, манікюр, пілінг…" autocomplete="off" class="form-field block h-12 w-full rounded-lg border border-stone-300 bg-white pl-12 pr-4 text-base text-sage transition duration-200 hover:border-stone-400 focus:border-sage focus:outline-none focus:ring-2 focus:ring-gold/60" />
+          </div>
+          <div class="-mx-5 mt-3 flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none] sm:-mx-8 sm:px-8 [&amp;::-webkit-scrollbar]:hidden" role="group" aria-label="Напрями" data-picker-chips></div>
+        </div>
+        <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-3 sm:px-8" data-picker-list></div>
+        <p class="hidden bg-red-50 px-5 py-2 text-sm font-medium text-red-700 sm:px-8" role="alert" data-picker-msg></p>
+        <div class="flex items-center justify-between gap-4 border-t border-stone-200 px-5 py-3 sm:px-8 sm:py-4">
+          <p class="min-w-0 text-sm"><span class="text-muted" data-picker-count>Нічого не обрано</span><strong class="ml-2 whitespace-nowrap" data-picker-total></strong></p>
+          <button type="button" class="button inline-flex min-h-12 shrink-0 items-center justify-center rounded-lg bg-sage px-8 py-3 font-semibold text-white transition duration-200 hover:bg-deep focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2" data-picker-close>Готово</button>
+        </div>
+      </div>
+    </dialog>
+
     <!-- Підтвердження онлайн-запису (керує js/widget.js) -->
     <dialog id="booking-dialog" class="price-dialog m-auto w-[min(32rem,calc(100%-2rem))] max-h-[min(92vh,48rem)] overflow-hidden rounded-2xl bg-cream p-0 text-sage shadow-2xl" aria-labelledby="booking-dialog-title">
       <div class="flex max-h-[inherit] flex-col">
@@ -1444,12 +1469,12 @@
         <span>© 2026 JuliGrain</span><span>Усі права захищено.</span>
       </div>
     </footer>
-    <script src="js/app.min.js?v=20261126i" defer></script>
-    <script src="assets/js/validation.min.js?v=20261126i" defer></script>
+    <script src="js/app.min.js?v=20261126k" defer></script>
+    <script src="assets/js/validation.min.js?v=20261126k" defer></script>
     <!-- Typed.js потрібен у hero одразу; Swiper і Fancybox plugins.js завантажує ліниво -->
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js" defer></script>
-    <script src="assets/js/plugins.min.js?v=20261126i" defer></script>
+    <script src="assets/js/plugins.min.js?v=20261126k" defer></script>
     <!-- Калькулятор візиту -->
-    <script src="js/widget.min.js?v=20261126i" defer></script>
+    <script src="js/widget.min.js?v=20261126k" defer></script>
   </body>
 </html>
