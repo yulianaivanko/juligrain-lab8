@@ -40,21 +40,12 @@ document.addEventListener("click", (e) =>
   }),
 );
 
-// Зовнішні сервіси починають завантаження лише біля видимої області.
-// Посилання на YouTube, карту й прогноз залишаються доступними без JavaScript.
+// Зовнішні сервіси (YouTube, карта) починають завантаження лише біля видимої області.
 function loadNearbyMedia(element) {
-  if (element.matches("iframe[data-src]")) {
-    element.src = element.dataset.src;
-    element.removeAttribute("data-src");
-  } else if (!document.getElementById("weather-widget-script")) {
-    const script = document.createElement("script");
-    script.id = "weather-widget-script";
-    script.src = "https://weatherwidget.io/js/widget.min.js";
-    script.async = true;
-    document.body.append(script);
-  }
+  element.src = element.dataset.src;
+  element.removeAttribute("data-src");
 }
-const deferredMedia = document.querySelectorAll("iframe[data-src], .weatherwidget-io");
+const deferredMedia = document.querySelectorAll("iframe[data-src]");
 if ("IntersectionObserver" in window) {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(({ isIntersecting, target }) => {
@@ -76,3 +67,99 @@ window.addEventListener("blur", () => setTimeout(() => {
 }));
 window.addEventListener("focus", () => document.querySelectorAll(".iframe-focused").forEach((f) => f.classList.remove("iframe-focused")));
 document.addEventListener("focusin", () => document.querySelectorAll(".iframe-focused").forEach((f) => f.classList.remove("iframe-focused")));
+
+// Прайс напряму відкривається в модальному вікні (<dialog>): закриття хрестиком, Esc або кліком по фону.
+(() => {
+  const dialog = document.getElementById("price-dialog");
+  if (!dialog || typeof dialog.showModal !== "function") {
+    // Старий браузер без <dialog>: показуємо прайс просто в картці
+    document.querySelectorAll("[data-price-open]").forEach((button) =>
+      button.addEventListener("click", () => {
+        const content = button.nextElementSibling;
+        content.hidden = !content.hidden;
+      }),
+    );
+    return;
+  }
+  const body = dialog.querySelector("[data-price-body]");
+  const title = dialog.querySelector("[data-price-title]");
+  const eyebrow = dialog.querySelector("[data-price-eyebrow]");
+  let opener = null;
+
+  function close() {
+    if (!dialog.open || dialog.classList.contains("is-closing")) return;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    dialog.classList.add("is-closing");
+    setTimeout(() => {
+      dialog.classList.remove("is-closing");
+      dialog.close();
+    }, reduce ? 0 : 180);
+  }
+
+  document.querySelectorAll("[data-price-open]").forEach((button) =>
+    button.addEventListener("click", () => {
+      const card = button.closest(".service-card");
+      const content = button.nextElementSibling.cloneNode(true);
+      content.hidden = false;
+      content.removeAttribute("id");
+      title.textContent = card.querySelector("h3").textContent.trim();
+      eyebrow.textContent = card.querySelector(".service-content > p").textContent.trim();
+      body.replaceChildren(content);
+      body.scrollTop = 0;
+      opener = button;
+      document.documentElement.classList.add("overflow-hidden");
+      dialog.showModal();
+    }),
+  );
+  dialog.querySelector("[data-price-close]").addEventListener("click", close);
+  dialog.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    close();
+  });
+  // Клік по затемненому фону (поза вмістом вікна)
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) close();
+  });
+  // Посилання всередині (до калькулятора) спершу закривають вікно
+  dialog.addEventListener("click", (event) => {
+    const link = event.target.closest('a[href^="#"]');
+    if (!link) return;
+    dialog.classList.remove("is-closing");
+    dialog.close();
+  });
+  dialog.addEventListener("close", () => {
+    document.documentElement.classList.remove("overflow-hidden");
+    if (opener && !location.hash.startsWith("#calculator")) opener.focus();
+  });
+})();
+
+// Плавна поява карток послуг під час прокрутки (лише якщо користувач не вимкнув анімації).
+(() => {
+  const cards = document.querySelectorAll(".service-card");
+  if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(({ isIntersecting, target }) => {
+      if (!isIntersecting) return;
+      target.classList.add("is-visible");
+      observer.unobserve(target);
+    });
+  }, { rootMargin: "0px 0px -60px 0px" });
+  cards.forEach((card, index) => {
+    card.classList.add("reveal");
+    card.style.transitionDelay = `${(index % 3) * 90}ms`;
+    observer.observe(card);
+  });
+  // Після фільтра показані картки з'являються знову з легкою анімацією
+  document.querySelectorAll("[data-filter], [data-category-link]").forEach((control) =>
+    control.addEventListener("click", () =>
+      requestAnimationFrame(() =>
+        cards.forEach((card, index) => {
+          if (card.hidden) return;
+          card.classList.remove("is-visible");
+          card.style.transitionDelay = `${(index % 3) * 60}ms`;
+          requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add("is-visible")));
+        }),
+      ),
+    ),
+  );
+})();

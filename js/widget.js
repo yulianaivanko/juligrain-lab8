@@ -16,6 +16,7 @@
     noService: "Оберіть послугу зі списку.",
     duplicate: "Ця послуга вже є у вашому візиті.",
     tooMany: `За один візит можна обрати до ${MAX_ITEMS} послуг. Для більшого запиту зв'яжіться з адміністраторкою.`,
+    pastDate: "Оберіть сьогоднішню або майбутню дату.",
     recipient: `Ім'я може містити лише літери, пробіл, апостроф або дефіс (до ${RECIPIENT_MAX} символів).`,
   };
 
@@ -28,6 +29,11 @@
     const t = clean(text);
     return t === t.toUpperCase() ? t.charAt(0) + t.slice(1).toLowerCase() : t;
   }
+
+  const todayISO = () => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  };
 
   function formatDuration(minutes) {
     if (!minutes) return "—";
@@ -130,6 +136,13 @@
       (buttons[Math.min(index, buttons.length - 1)] || el.service).focus();
     }
 
+    /** Бажана дата: порожня (необов'язково) або не раніше за сьогодні. */
+    function dateValue() {
+      if (!el.date || !el.date.value) return { value: "" };
+      if (el.date.value < todayISO()) return { error: MSG.pastDate };
+      return { value: el.date.value.split("-").reverse().join(".") };
+    }
+
     function recipientValue() {
       if (!el.gift || !el.gift.checked || !el.recipient) return { value: "" };
       const value = clean(el.recipient.value);
@@ -179,20 +192,25 @@
           ? `Подарунковий сертифікат${recipient.value ? ` на ім'я: ${recipient.value}` : ""}`
           : "";
       }
-      el.send.disabled = !selected.length || Boolean(recipient.error);
+      const date = dateValue();
+      if (el.date) setError(el.date, el.dateError, date.error || "");
+      el.send.disabled = !selected.length || Boolean(recipient.error) || Boolean(date.error);
     }
 
     // ---------- Перенесення розрахунку у форму зворотного зв'язку ----------
     function sendToContactForm() {
       if (!selected.length) return;
       const recipient = recipientValue();
-      if (recipient.error) return;
+      const date = dateValue();
+      if (recipient.error || date.error) return;
+      const time = el.time ? el.time.value : "";
       const gift = el.gift && el.gift.checked;
       const lines = [
         gift ? "Хочу оформити подарунковий сертифікат на послуги:" : "Хочу записатися на послуги:",
         ...selected.map((s) => `• ${s.name} — ${formatUAH(s.price)}`),
         `Разом: ${el.total.textContent}, орієнтовно ${el.duration.textContent}.`,
       ];
+      if (date.value || time) lines.push(`Бажаний час: ${[date.value, time && `о ${time}`].filter(Boolean).join(" ")}.`);
       if (gift && recipient.value) lines.push(`Сертифікат на ім'я: ${recipient.value}.`);
       const message = document.getElementById("message");
       const topic = document.getElementById("topic");
@@ -215,6 +233,11 @@
     });
     if (el.gift) el.gift.addEventListener("change", render);
     if (el.recipient) el.recipient.addEventListener("input", render);
+    if (el.date) {
+      el.date.min = todayISO();
+      el.date.addEventListener("input", render);
+      el.date.addEventListener("change", render);
+    }
     el.send.addEventListener("click", sendToContactForm);
 
     fillServices();

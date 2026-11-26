@@ -125,3 +125,38 @@ footer a:focus-visible { outline-color: #c5b39a !important; }
 /* Пункт меню «Послуги» (<summary>) — це кнопка-перемикач, а не текст:
    при кліку не виділяємо текст і не показуємо текстову каретку посеред слова. */
 summary { -webkit-user-select: none; user-select: none; caret-color: transparent; }
+
+/* ===== Картки послуг: плавна поява під час прокрутки =====
+   Використовуємо властивість translate, щоб не конфліктувати з hover-ефектом (transform). */
+.service-card.reveal {
+  opacity: 0;
+  translate: 0 28px;
+  transition: opacity .6s ease-out, translate .6s cubic-bezier(.2, .7, .2, 1), transform .3s ease-out, box-shadow .3s ease-out;
+}
+.service-card.reveal.is-visible { opacity: 1; translate: 0 0; }
+.service-card img { transition: transform .7s cubic-bezier(.2, .7, .2, 1); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .service-card:hover img { transform: scale(1.06); }
+}
+
+/* ===== Модальне вікно прайсу ===== */
+.price-dialog { border: 0; }
+.price-dialog[open] { animation: price-in .28s cubic-bezier(.2, .7, .2, 1); }
+.price-dialog[open]::backdrop { background: rgb(32 43 38 / .6); backdrop-filter: blur(3px); animation: price-fade .28s ease-out; }
+.price-dialog.is-closing { animation: price-out .18s ease-in forwards; }
+.price-dialog.is-closing::backdrop { animation: price-fade .18s ease-in reverse forwards; }
+.price-dialog-body .price-group-title:first-child { margin-top: 1.25rem; }
+@keyframes price-in { from { opacity: 0; transform: translateY(24px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes price-out { to { opacity: 0; transform: translateY(16px) scale(.98); } }
+@keyframes price-fade { from { opacity: 0; } to { opacity: 1; } }
+@media (max-width: 639px) {
+  /* На телефоні — нижня «шторка» на всю ширину */
+  .price-dialog { width: 100%; max-width: 100%; margin: auto 0 0; border-radius: 1.25rem 1.25rem 0 0; max-height: 88vh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .price-dialog[open], .price-dialog[open]::backdrop, .price-dialog.is-closing { animation: none; }
+}
+
+/* ===== Відгуки однакової висоти: слайд тягнеться на висоту найвищого ===== */
+.reviews-swiper .swiper-wrapper { align-items: stretch; }
+.reviews-swiper .swiper-slide { height: auto !important; }
