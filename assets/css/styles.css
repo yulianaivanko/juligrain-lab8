@@ -121,3 +121,7 @@ footer a:focus-visible { outline-color: #c5b39a !important; }
   text-align: left;
 }
 .booking-fields input[type="date"]::-webkit-date-and-time-value { text-align: left; margin: 0; }
+
+/* ЛР 12. Пункт меню «Послуги» (<summary>) — це кнопка-перемикач, а не текст:
+   при кліку не виділяємо текст і не показуємо текстову каретку посеред слова. */
+summary { -webkit-user-select: none; user-select: none; caret-color: transparent; }
