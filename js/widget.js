@@ -125,6 +125,7 @@
       selected.push(service);
       el.service.value = "";
       render();
+      if (el.listBox) el.listBox.scrollTop = el.listBox.scrollHeight;
     }
 
     function remove(id) {
@@ -155,19 +156,19 @@
       el.list.replaceChildren(
         ...selected.map((s) => {
           const li = document.createElement("li");
-          li.className = "flex items-start justify-between gap-3 rounded-lg border border-stone-300 bg-white px-4 py-3 text-sm";
+          li.className = "flex items-start justify-between gap-3 rounded-lg bg-white/10 px-3 py-2.5 text-sm";
           const info = document.createElement("div");
           info.className = "min-w-0 [overflow-wrap:anywhere]";
           const title = document.createElement("p");
-          title.className = "font-semibold text-sage";
+          title.className = "font-semibold text-white";
           title.textContent = s.name;
           const meta = document.createElement("p");
-          meta.className = "text-muted";
-          meta.textContent = [s.group, formatUAH(s.price), s.minutes ? formatDuration(s.minutes) : "час уточнюється"].join(" · ");
+          meta.className = "text-stone-300";
+          meta.textContent = [formatUAH(s.price), s.minutes ? formatDuration(s.minutes) : "час уточнюється"].join(" · ");
           info.append(title, meta);
           const del = document.createElement("button");
           del.type = "button";
-          del.className = "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-stone-300 text-lg text-sage transition hover:border-sage hover:bg-linen";
+          del.className = "inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/30 text-lg text-white transition hover:bg-white/15";
           del.setAttribute("aria-label", `Прибрати: ${s.name}`);
           del.textContent = "×";
           del.addEventListener("click", () => remove(s.id));
@@ -186,7 +187,7 @@
 
       const recipient = recipientValue();
       if (el.recipient) setError(el.recipient, el.recipientError, recipient.error || "");
-      if (el.giftBox) el.giftBox.classList.toggle("hidden", !(el.gift && el.gift.checked));
+      if (el.recipient) el.recipient.disabled = !(el.gift && el.gift.checked);
       if (el.note) {
         el.note.textContent = el.gift && el.gift.checked && selected.length
           ? `Подарунковий сертифікат${recipient.value ? ` на ім'я: ${recipient.value}` : ""}`
@@ -197,32 +198,132 @@
       el.send.disabled = !selected.length || Boolean(recipient.error) || Boolean(date.error);
     }
 
-    // ---------- Перенесення розрахунку у форму зворотного зв'язку ----------
-    function sendToContactForm() {
-      if (!selected.length) return;
+    // ---------- Вікно підтвердження запису: ім'я, телефон, коментар ----------
+    const dialog = document.getElementById("booking-dialog");
+    const bookingForm = document.getElementById("booking-form");
+    const reduceMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const bookingField = (id) => ({ input: document.getElementById(id), error: document.getElementById(`${id}-error`) });
+    const nameField = bookingField("booking-name");
+    const phoneField = bookingField("booking-phone");
+    const showFieldError = (field, message) => setError(field.input, field.error, message);
+
+    function normalizePhone(raw) {
+      const digits = raw.replace(/\D/g, "");
+      if (/^0\d{9}$/.test(digits)) return `+38${digits}`;
+      if (/^380\d{9}$/.test(digits)) return `+${digits}`;
+      return raw.trim();
+    }
+    function checkName() {
+      const value = clean(nameField.input.value);
+      const message = !value
+        ? "Вкажіть ваше ім'я."
+        : value.length < 2 || !NAME_RE.test(value)
+          ? "Ім'я може містити лише літери, пробіл, апостроф або дефіс."
+          : "";
+      showFieldError(nameField, message);
+      return !message;
+    }
+    function checkPhone() {
+      const value = normalizePhone(phoneField.input.value);
+      phoneField.input.value = value;
+      const message = !value ? "Вкажіть номер телефону." : /^\+380\d{9}$/.test(value) ? "" : "Номер у форматі +380XXXXXXXXX.";
+      showFieldError(phoneField, message);
+      return !message;
+    }
+
+    function closeBooking() {
+      if (!dialog.open || dialog.classList.contains("is-closing")) return;
+      dialog.classList.add("is-closing");
+      setTimeout(() => {
+        dialog.classList.remove("is-closing");
+        dialog.close();
+      }, reduceMotion() ? 0 : 180);
+    }
+
+    function openBooking() {
+      if (!selected.length || !dialog || typeof dialog.showModal !== "function") return;
       const recipient = recipientValue();
       const date = dateValue();
       if (recipient.error || date.error) return;
       const time = el.time ? el.time.value : "";
       const gift = el.gift && el.gift.checked;
-      const lines = [
-        gift ? "Хочу оформити подарунковий сертифікат на послуги:" : "Хочу записатися на послуги:",
-        ...selected.map((s) => `• ${s.name} — ${formatUAH(s.price)}`),
-        `Разом: ${el.total.textContent}, орієнтовно ${el.duration.textContent}.`,
-      ];
-      if (date.value || time) lines.push(`Бажаний час: ${[date.value, time && `о ${time}`].filter(Boolean).join(" ")}.`);
-      if (gift && recipient.value) lines.push(`Сертифікат на ім'я: ${recipient.value}.`);
-      const message = document.getElementById("message");
-      const topic = document.getElementById("topic");
-      if (topic) topic.value = gift ? "certificate" : "consultation";
-      if (message) {
-        message.value = lines.join("\n").slice(0, Number(message.maxLength) > 0 ? message.maxLength : 1000);
-        message.dispatchEvent(new Event("input", { bubbles: true }));
-      }
-      const contact = document.getElementById("contact");
-      if (contact) contact.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
-      const name = document.getElementById("username");
-      if (name) setTimeout(() => name.focus({ preventScroll: true }), 400);
+      dialog.querySelector("[data-booking-summary]").replaceChildren(
+        ...selected.map((s) => {
+          const li = document.createElement("li");
+          li.className = "flex justify-between gap-3";
+          const name = document.createElement("span");
+          name.textContent = s.name;
+          const price = document.createElement("span");
+          price.className = "shrink-0 font-semibold";
+          price.textContent = formatUAH(s.price);
+          li.append(name, price);
+          return li;
+        })
+      );
+      const when = [date.value, time && `о ${time}`].filter(Boolean).join(" ") || "час узгодимо телефоном";
+      dialog.querySelector("[data-booking-meta]").textContent =
+        `Разом ${el.total.textContent} · ${el.duration.textContent} · ${when}` +
+        (gift ? ` · сертифікат${recipient.value ? ` на ім'я ${recipient.value}` : ""}` : "");
+      dialog.querySelector('[data-booking-step="form"]').classList.remove("hidden");
+      dialog.querySelector('[data-booking-step="done"]').classList.add("hidden");
+      [nameField, phoneField].forEach((f) => showFieldError(f, ""));
+      document.documentElement.classList.add("overflow-hidden");
+      dialog.showModal();
+      nameField.input.focus();
+    }
+
+    function resetCalculator() {
+      selected.splice(0);
+      if (el.gift) el.gift.checked = false;
+      if (el.recipient) el.recipient.value = "";
+      if (el.date) el.date.value = "";
+      if (el.time) el.time.value = "";
+      bookingForm.reset();
+      render();
+    }
+
+    if (dialog && bookingForm) {
+      bookingForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const ok = [checkName(), checkPhone()];
+        if (ok.includes(false)) {
+          (ok[0] ? phoneField : nameField).input.focus();
+          return;
+        }
+        const button = bookingForm.querySelector('[type="submit"]');
+        button.disabled = true;
+        button.textContent = "Надсилаємо…";
+        setTimeout(() => {
+          button.disabled = false;
+          button.textContent = "Підтвердити запис";
+          const name = clean(nameField.input.value);
+          const title = dialog.querySelector("[data-booking-done-title]");
+          title.textContent = `Дякуємо, ${name}!`;
+          dialog.querySelector("[data-booking-done-text]").textContent =
+            `Запис прийнято. Адміністраторка зателефонує на номер ${phoneField.input.value}, щоб підтвердити час.`;
+          dialog.querySelector('[data-booking-step="form"]').classList.add("hidden");
+          dialog.querySelector('[data-booking-step="done"]').classList.remove("hidden");
+          title.focus();
+          resetCalculator();
+        }, 600);
+      });
+      nameField.input.addEventListener("blur", () => nameField.input.value && checkName());
+      phoneField.input.addEventListener("blur", () => phoneField.input.value && checkPhone());
+      [nameField, phoneField].forEach((f) =>
+        f.input.addEventListener("input", () => f.input.getAttribute("aria-invalid") === "true" && showFieldError(f, ""))
+      );
+      dialog.querySelectorAll("[data-booking-close]").forEach((b) => b.addEventListener("click", closeBooking));
+      dialog.addEventListener("cancel", (event) => {
+        event.preventDefault();
+        closeBooking();
+      });
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) closeBooking();
+      });
+      dialog.addEventListener("close", () => {
+        document.documentElement.classList.remove("overflow-hidden");
+        (el.send.disabled ? el.service : el.send).focus();
+      });
     }
 
     el.category.addEventListener("change", fillServices);
@@ -238,7 +339,7 @@
       el.date.addEventListener("input", render);
       el.date.addEventListener("change", render);
     }
-    el.send.addEventListener("click", sendToContactForm);
+    el.send.addEventListener("click", openBooking);
 
     fillServices();
     render();
