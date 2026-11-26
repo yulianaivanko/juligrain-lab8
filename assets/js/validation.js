@@ -1,5 +1,6 @@
 // Перевірка форми зворотного зв'язку JuliGrain.
-// Після успішної перевірки текст звернення копіюється, а вікно пропонує надіслати його в Instagram Direct або зателефонувати.
+// Після успішної перевірки звернення надсилається на пошту салону через FormSubmit (formsubmit.co).
+// Якщо надіслати не вдалося, дані лишаються у формі, а вікно пропонує Instagram Direct або дзвінок.
 (() => {
   "use strict";
 
@@ -235,7 +236,7 @@
   /* ---------- 7. Надсилання форми ---------- */
 
   form.addEventListener("submit", (event) => {
-    event.preventDefault(); // без бекенду сторінка не перезавантажується
+    event.preventDefault(); // надсилаємо через fetch, без перезавантаження сторінки
     if (isSubmitting) return; // захист від швидкого повторного натискання
 
     form.dataset.submitted = "true";
@@ -250,36 +251,46 @@
       return;
     }
 
-    // Готуємо текст звернення й копіюємо його (поки триває дія користувача — інакше браузер не дозволить)
-    const topicSelect = document.getElementById("topic");
-    const text = [
-      `Ім'я: ${fields.name.input.value.trim()}`,
-      `Телефон: ${fields.phone.input.value.trim()}`,
-      `Email: ${fields.email.input.value.trim()}`,
-      topicSelect ? `Тема: ${topicSelect.options[topicSelect.selectedIndex].text}` : "",
-      "",
-      fields.message.input.value.trim(),
-    ].filter((line, i) => line || i === 4).join("\n");
-    try {
-      navigator.clipboard?.writeText(text).catch(() => {});
-    } catch (_) {
-      /* без доступу до буфера обміну вікно все одно відкриється */
-    }
-
-    // Коротка пауза та блокування кнопки від повторного натискання
+    // Надсилання на пошту салону через FormSubmit (адреса — в data-endpoint форми)
     isSubmitting = true;
     submitBtn.disabled = true;
     submitBtn.textContent = "Надсилаємо…";
+    formStatus.textContent = "";
     const name = fields.name.input.value.trim();
+    const topicSelect = document.getElementById("topic");
+    const topic = topicSelect ? topicSelect.options[topicSelect.selectedIndex].text : "";
+    const payload = {
+      "Ім'я": name,
+      Телефон: fields.phone.input.value.trim(),
+      Email: fields.email.input.value.trim(),
+      Тема: topic,
+      Повідомлення: fields.message.input.value.trim(),
+      _replyto: fields.email.input.value.trim(),
+      _subject: `JuliGrain: ${topic || "звернення"} — ${name}`,
+      _template: "table",
+      _captcha: "false",
+      _honey: form.querySelector('[name="_honey"]')?.value || "",
+    };
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 15000);
 
-    setTimeout(() => {
-      resetForm();
-      // Кнопку розблоковуємо до відкриття вікна, щоб після закриття на неї можна було повернути фокус
-      isSubmitting = false;
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Надіслати";
-      openModal(name);
-    }, 600);
+    fetch(form.dataset.endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    })
+      .then((response) => response.json().catch(() => ({})).then((data) => response.ok && String(data.success) === "true"))
+      .catch(() => false)
+      .then((sent) => {
+        clearTimeout(timer);
+        // Кнопку розблоковуємо до відкриття вікна, щоб після закриття на неї можна було повернути фокус
+        isSubmitting = false;
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Надіслати";
+        if (sent) resetForm(); // при помилці дані лишаються у формі
+        openModal(name, sent);
+      });
   });
 
   function resetForm() {
@@ -296,9 +307,22 @@
 
   const pageRegions = () => [...document.body.children].filter((el) => !el.contains(modal) && el.tagName !== "SCRIPT");
 
-  function openModal(name) {
+  const modalTitleText = document.getElementById("modalTitleText");
+  const modalText = document.getElementById("modalText");
+  const modalFallback = document.getElementById("modalFallback");
+  const modalIcon = document.getElementById("modalIcon");
+
+  function openModal(name, sent) {
     lastFocused = document.activeElement === document.body ? submitBtn : document.activeElement;
     modalName.textContent = name; // textContent: HTML у полі імені не виконається
+    modalTitleText.textContent = sent ? "Дякуємо, " : "Не вдалося надіслати, ";
+    modalText.textContent = sent
+      ? "Ми отримали ваше звернення. Адміністраторка відповість протягом робочого дня."
+      : "Схоже, зв'язок перервався. Ваш текст лишився у формі — спробуйте ще раз або напишіть нам в Instagram чи зателефонуйте.";
+    modalFallback.classList.toggle("hidden", sent);
+    modalFallback.classList.toggle("grid", !sent);
+    modalIcon.classList.toggle("hidden", !sent);
+    modalIcon.classList.toggle("flex", sent);
     // Модальне вікно виносимо в body, щоб решту сторінки можна було зробити inert
     document.body.append(modal);
     modal.classList.remove("hidden");
