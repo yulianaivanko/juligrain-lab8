@@ -105,3 +105,19 @@ footer a:focus-visible { outline-color: #c5b39a !important; }
    змінний текст ізольовано у власному блоці (contain: layout paint) */
 #typed-text { display: inline-block; contain: layout paint; vertical-align: top; }
 /* layout containment прибирає базову лінію, тому вирівнюємо за верхом рядка */
+
+/* ===== ЛР 12. Баг з реального iPhone (Safari): поле «Дата візиту» виходило за межі картки запису.
+   Причини: 1) Safari малює input[type=date] власним елементом з мінімальною шириною;
+   2) на телефоні сітка .booking-fields має колонку auto, яка розтягується під цю ширину. ===== */
+@media (max-width: 639px) {
+  .booking-fields { grid-template-columns: minmax(0, 1fr); }
+}
+.booking-fields label { min-width: 0; }
+.booking-fields input[type="date"] {
+  display: block;
+  -webkit-appearance: none;
+  appearance: none;
+  max-width: 100%;
+  text-align: left;
+}
+.booking-fields input[type="date"]::-webkit-date-and-time-value { text-align: left; margin: 0; }
