@@ -1,5 +1,5 @@
-// ЛР 9. Клієнтська валідація форми зворотного зв'язку JuliGrain.
-// Реального надсилання немає: після успішної перевірки показується демонстраційне модальне вікно.
+// Перевірка форми зворотного зв'язку JuliGrain.
+// Після успішної перевірки текст звернення копіюється, а вікно пропонує надіслати його в Instagram Direct або зателефонувати.
 (() => {
   "use strict";
 
@@ -250,10 +250,26 @@
       return;
     }
 
-    // Імітація надсилання: коротка пауза та блокування кнопки
+    // Готуємо текст звернення й копіюємо його (поки триває дія користувача — інакше браузер не дозволить)
+    const topicSelect = document.getElementById("topic");
+    const text = [
+      `Ім'я: ${fields.name.input.value.trim()}`,
+      `Телефон: ${fields.phone.input.value.trim()}`,
+      `Email: ${fields.email.input.value.trim()}`,
+      topicSelect ? `Тема: ${topicSelect.options[topicSelect.selectedIndex].text}` : "",
+      "",
+      fields.message.input.value.trim(),
+    ].filter((line, i) => line || i === 4).join("\n");
+    try {
+      navigator.clipboard?.writeText(text).catch(() => {});
+    } catch (_) {
+      /* без доступу до буфера обміну вікно все одно відкриється */
+    }
+
+    // Коротка пауза та блокування кнопки від повторного натискання
     isSubmitting = true;
     submitBtn.disabled = true;
-    submitBtn.textContent = "Перевіряємо…";
+    submitBtn.textContent = "Надсилаємо…";
     const name = fields.name.input.value.trim();
 
     setTimeout(() => {

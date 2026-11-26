@@ -68,7 +68,7 @@ if ("IntersectionObserver" in window) {
   deferredMedia.forEach(loadNearbyMedia);
 }
 
-// ЛР 12. Видимий фокус для вбудованих відео й карти. Коли фокус клавіатури переходить усередину
+// Видимий фокус для вбудованих відео й карти. Коли фокус клавіатури переходить усередину
 // iframe, сам елемент не отримує :focus, тому позначаємо його класом, поки фокус всередині.
 window.addEventListener("blur", () => setTimeout(() => {
   const active = document.activeElement;

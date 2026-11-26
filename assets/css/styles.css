@@ -1,4 +1,4 @@
-/* ЛР 9. Доповнення до Tailwind для форми зворотного зв'язку.
+/* Доповнення до Tailwind для форми зворотного зв'язку.
    Основні стилі форми написані Tailwind-класами в index.html та validation.js. */
 
 /* Плавна поява модального вікна */
@@ -39,7 +39,7 @@
   background-size: 1.25rem;
 }
 
-/* ===== ЛР 10. Плагіни Swiper, Fancybox, Typed.js ===== */
+/* ===== Плагіни Swiper, Fancybox, Typed.js ===== */
 
 /* Кольори Swiper під палітру JuliGrain */
 .reviews-swiper {
@@ -60,10 +60,10 @@
 .typed-line .typed-cursor { color: #c5b39a; font-weight: 400; }
 
 /* Fancybox: фон і акцент у тонах сайту */
-/* ЛР 12: CSS Fancybox тепер підключається пізніше, тому підвищуємо специфічність */
+/* CSS Fancybox тепер підключається пізніше, тому підвищуємо специфічність */
 html body .fancybox__container { --fancybox-bg: rgba(32, 43, 38, 0.94); --fancybox-accent-color: #c5b39a; }
 
-/* ===== ЛР 12. Accessibility: області дотику крапок слайдера 48×48 px (Lighthouse target-size) ===== */
+/* ===== Accessibility: області дотику крапок слайдера 48×48 px (Lighthouse target-size) ===== */
 .reviews-pagination { display: flex; justify-content: center; gap: 0; }
 .reviews-swiper .reviews-pagination .swiper-pagination-bullet {
   position: relative;
@@ -89,7 +89,7 @@ html body .fancybox__container { --fancybox-bg: rgba(32, 43, 38, 0.94); --fancyb
 .reviews-swiper .reviews-pagination .swiper-pagination-bullet:focus-visible { outline: 3px solid #8c7a6b; outline-offset: -6px; }
 @media (prefers-reduced-motion: reduce) { .reviews-swiper .reviews-pagination .swiper-pagination-bullet::after { transition: none; } }
 
-/* ===== ЛР 12. Контраст фокусу та іконок (WCAG 1.4.11: не менше 3:1) =====
+/* ===== Контраст фокусу та іконок (WCAG 1.4.11: не менше 3:1) =====
    Золотий #C5B39A на світлому тлі дає лише 1.94:1. Беремо коричневий #8C7A6B з тієї ж палітри:
    3.91:1 на cream, 3.59:1 на linen і 3.08:1 на sage — один колір працює і на світлих, і на темних секціях. */
 a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible,
@@ -101,12 +101,12 @@ footer a:focus-visible { outline-color: #c5b39a !important; }
 /* зірки рейтингу на світлих картках відгуків */
 .testimonial-card .stars { color: #8c7a6b; }
 
-/* ЛР 12. Performance: друк Typed.js не перераховує макет усієї сторінки —
+/* Performance: друк Typed.js не перераховує макет усієї сторінки —
    змінний текст ізольовано у власному блоці (contain: layout paint) */
 #typed-text { display: inline-block; contain: layout paint; vertical-align: top; }
 /* layout containment прибирає базову лінію, тому вирівнюємо за верхом рядка */
 
-/* ===== ЛР 12. Баг з реального iPhone (Safari): поле «Дата візиту» виходило за межі картки запису.
+/* ===== Баг на iPhone (Safari): поле «Дата візиту» виходило за межі картки запису.
    Причини: 1) Safari малює input[type=date] власним елементом з мінімальною шириною;
    2) на телефоні сітка .booking-fields має колонку auto, яка розтягується під цю ширину. ===== */
 @media (max-width: 639px) {
@@ -122,6 +122,6 @@ footer a:focus-visible { outline-color: #c5b39a !important; }
 }
 .booking-fields input[type="date"]::-webkit-date-and-time-value { text-align: left; margin: 0; }
 
-/* ЛР 12. Пункт меню «Послуги» (<summary>) — це кнопка-перемикач, а не текст:
+/* Пункт меню «Послуги» (<summary>) — це кнопка-перемикач, а не текст:
    при кліку не виділяємо текст і не показуємо текстову каретку посеред слова. */
 summary { -webkit-user-select: none; user-select: none; caret-color: transparent; }

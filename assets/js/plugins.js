@@ -1,6 +1,6 @@
-/* ЛР 10. Ініціалізація JS-плагінів (Vanilla JS, без jQuery), підключених через CDN jsDelivr:
+/* Ініціалізація JS-плагінів (Vanilla JS, без jQuery), підключених через CDN jsDelivr:
    Swiper.js 11 — слайдер відгуків, Fancybox 5 — галерея робіт, Typed.js 2 — друк тексту в hero.
-   ЛР 12. Оптимізація за Lighthouse: Swiper і Fancybox (JS + CSS) більше не завантажуються разом
+   Оптимізація: Swiper і Fancybox (JS + CSS) більше не завантажуються разом
    зі сторінкою. Вони підтягуються лише тоді, коли користувач наближається до своєї секції
    (IntersectionObserver), тому не блокують рендер і не займають головний потік на старті. */
 const CDN = "https://cdn.jsdelivr.net/npm/";
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
         prevSlideMessage: "Попередній відгук",
         nextSlideMessage: "Наступний відгук",
         paginationBulletMessage: "Перейти до відгуку {{index}}",
-        slideRole: "group",            // ЛР 12: слайди тепер <div>, роль group для них допустима
+        slideRole: "group",            // слайди тепер <div>, роль group для них допустима
       },
       pagination: { el: ".reviews-pagination", clickable: true },
       navigation: { prevEl: ".reviews-prev", nextEl: ".reviews-next" },
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* 3. Typed.js: ефект друку в hero.
-     ЛР 12: кожен надрукований символ змушує браузер перераховувати стилі й макет великої сторінки
+     Кожен надрукований символ змушує браузер перераховувати стилі й макет великої сторінки
      (Lighthouse: Style & Layout 1,5 с, TBT до 430 мс). Тому друк стартує через 1 с після події load,
      коли основне завантаження вже завершене; до того в рядку стоїть статичний текст із HTML. */
   const startTyped = () => setTimeout(() => {

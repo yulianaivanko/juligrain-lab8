@@ -1,200 +1,227 @@
 /**
- * ЛР 11. Інтерактивний віджет «Калькулятор вартості б'юті-курсу» JuliGrain.
- * Vanilla JS, без jQuery. Код ізольовано в IIFE: жодної глобальної змінної,
- * кожен блок [data-course-calculator] отримує власний екземпляр.
- *
- * Захист (Defensive Programming), 3 рівні:
- *  1) HTML5: type="number" min="1" max="12" step="1" required, maxlength="30";
- *  2) JS: перевірка та приведення типів ДО розрахунку (NaN, Infinity, 0, від'ємні,
- *     надвеликі, дробові, порожні, невідомі значення select/radio, відсутні DOM-елементи);
- *  3) безпечне виведення: лише textContent, ніколи innerHTML для даних користувача.
+ * Калькулятор візиту JuliGrain.
+ * Послуги, ціни й тривалість читаються з прайсу на сторінці (.service-card → .price-list),
+ * тож калькулятор завжди збігається з актуальними цінами. Vanilla JS в IIFE, без глобальних змінних;
+ * дані користувача виводяться лише через textContent.
  */
 (() => {
   "use strict";
 
-  // ---------- Бізнес-правила (таблиця з етапу 1) ----------
-  const RULES = Object.freeze({
-    procedures: Object.freeze({
-      "face-massage": { name: "Міофасціальний масаж обличчя", price: 1400 },
-      "is-clinical": { name: "Чистка обличчя Is Clinical", price: 2000 },
-      "prx-peel": { name: "Пілінг PRX-T33 обличчя", price: 2300 },
-      "hair-repair": { name: "Зволоження волосся Repair", price: 1900 },
-      manicure: { name: "Класичний/комбінований манікюр", price: 650 },
-    }),
-    levels: Object.freeze({ master: { name: "майстер", factor: 1 }, top: { name: "топ-майстер", factor: 1.2 } }),
-    minSessions: 1,
-    maxSessions: 12,
-    ledPerSession: 350,
-    giftPrice: 150,
-    recipientMax: 30,
-  });
-
-  const MSG = {
-    sessionsEmpty: `Вкажіть кількість сеансів від ${RULES.minSessions} до ${RULES.maxSessions}.`,
-    sessionsNotNumber: "Введіть число цифрами, наприклад 5.",
-    sessionsRange: `Кількість сеансів має бути від ${RULES.minSessions} до ${RULES.maxSessions}.`,
-    procedure: "Оберіть процедуру зі списку.",
-    level: "Оберіть рівень майстра.",
-    recipient: "Ім'я може містити лише літери, пробіл, апостроф або дефіс (до 30 символів).",
-  };
-
+  const MAX_ITEMS = 10;
+  const RECIPIENT_MAX = 30;
+  const NAME_RE = /^[\p{L}][\p{L}\s'ʼ’-]*$/u;
   const ERROR_CLASSES = ["border-red-600", "focus:border-red-600", "focus:ring-red-600/30", "bg-red-50"];
   const NORMAL_CLASSES = ["border-stone-300", "focus:border-sage", "focus:ring-gold/60", "bg-white"];
-  const NAME_RE = /^[\p{L}][\p{L}\s'ʼ’-]*$/u;
+  const MSG = {
+    noService: "Оберіть послугу зі списку.",
+    duplicate: "Ця послуга вже є у вашому візиті.",
+    tooMany: `За один візит можна обрати до ${MAX_ITEMS} послуг. Для більшого запиту зв'яжіться з адміністраторкою.`,
+    recipient: `Ім'я може містити лише літери, пробіл, апостроф або дефіс (до ${RECIPIENT_MAX} символів).`,
+  };
+
   const money = new Intl.NumberFormat("uk-UA", { maximumFractionDigits: 0 });
   const formatUAH = (n) => `${money.format(n)} грн`;
+  const clean = (text) => String(text || "").replace(/\s+/g, " ").replace(/\(\s+/g, "(").replace(/\s+\)/g, ")").trim();
 
-  /** Знижка за курс: 5–9 сеансів — 10 %, 10–12 — 15 %. */
-  const discountRate = (sessions) => (sessions >= 10 ? 0.15 : sessions >= 5 ? 0.1 : 0);
-
-  /**
-   * Розбір поля кількості сеансів. Повертає { value } або { error }.
-   * Дробове число нормалізується (округлення), а не відхиляється.
-   */
-  function parseSessions(input) {
-    if (input.validity && input.validity.badInput) return { error: MSG.sessionsNotNumber }; // «abc», «--», «1e»
-    const raw = String(input.value).trim();
-    if (raw === "") return { error: MSG.sessionsEmpty };
-    const num = Number(raw);
-    if (!Number.isFinite(num)) return { error: MSG.sessionsNotNumber }; // NaN, Infinity
-    const value = Math.round(num);
-    if (value < RULES.minSessions || value > RULES.maxSessions) return { error: MSG.sessionsRange };
-    return { value, rounded: value !== num };
+  /** «МАНІКЮР» → «Манікюр»; звичайні назви лишаються як є. */
+  function groupName(text) {
+    const t = clean(text);
+    return t === t.toUpperCase() ? t.charAt(0) + t.slice(1).toLowerCase() : t;
   }
 
-  /** Чиста функція розрахунку: тільки перевірені дані на вході, тільки скінченні невід'ємні числа на виході. */
-  function calculateCourse({ procedure, level, sessions, led, gift }) {
-    const perSession = Math.round(procedure.price * level.factor) + (led ? RULES.ledPerSession : 0);
-    const sessionsTotal = perSession * sessions;
-    const discount = Math.round(sessionsTotal * discountRate(sessions));
-    const giftPrice = gift ? RULES.giftPrice : 0;
-    const total = sessionsTotal - discount + giftPrice;
-    if (![perSession, discount, total].every((n) => Number.isFinite(n) && n >= 0)) {
-      throw new RangeError("Некоректний результат розрахунку");
-    }
-    return { perSession, discount, giftPrice, total };
+  function formatDuration(minutes) {
+    if (!minutes) return "—";
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    return [h ? `${h} год` : "", m ? `${m} хв` : ""].filter(Boolean).join(" ");
+  }
+
+  /** Збирає прайс зі сторінки: [{ name, services: [{ id, name, price, minutes }] }]. */
+  function readPriceList(doc) {
+    const groups = [];
+    doc.querySelectorAll(".service-price-content").forEach((content) => {
+      let current = null;
+      [...content.children].forEach((node) => {
+        if (node.matches(".price-group-title")) {
+          current = { name: groupName(node.textContent), services: [] };
+          groups.push(current);
+        } else if (node.matches(".price-list") && current) {
+          node.querySelectorAll("li").forEach((li) => {
+            const name = clean(li.querySelector(".price-name")?.textContent);
+            const price = Number(clean(li.querySelector(".price-meta strong")?.textContent).replace(/\D/g, ""));
+            const time = clean(li.querySelector(".price-meta span")?.textContent);
+            const minutes = /^\d+\s*хв$/.test(time) ? parseInt(time, 10) : 0;
+            if (!name || !Number.isFinite(price) || price <= 0) return; // пропускаємо пошкоджені рядки
+            current.services.push({ id: `${groups.length - 1}-${current.services.length}`, name, price, minutes });
+          });
+        }
+      });
+    });
+    return groups.filter((g) => g.services.length);
   }
 
   function initCalculator(root) {
-    const q = (name) => root.querySelector(`[data-calc="${name}"]`);
-    const el = {
-      form: q("form"), procedure: q("procedure"), sessions: q("sessions"), led: q("led"), gift: q("gift"),
-      giftBox: q("gift-box"), recipient: q("recipient"), summary: q("summary"), perSession: q("per-session"),
-      discount: q("discount"), giftPrice: q("gift-price"), total: q("total"), note: q("note"), send: q("send"),
-      errors: { procedure: q("procedure-error"), sessions: q("sessions-error"), level: q("level-error"), recipient: q("recipient-error") },
-    };
-    const levels = [...root.querySelectorAll('[data-calc="level"]')];
-
-    // Відсутній DOM-елемент: попередження в консолі замість TypeError, решта сторінки працює.
-    const missing = Object.entries(el).filter(([, v]) => !v).map(([k]) => k)
-      .concat(Object.entries(el.errors).filter(([, v]) => !v).map(([k]) => `${k}-error`));
-    if (missing.length || levels.length === 0) {
-      console.warn("[JuliGrain calculator] Віджет не запущено, бракує елементів:", missing.concat(levels.length ? [] : ["level"]).join(", "));
-      return null;
+    const el = {};
+    root.querySelectorAll("[data-calc]").forEach((node) => {
+      el[node.dataset.calc.replace(/-(\w)/g, (_, c) => c.toUpperCase())] = node;
+    });
+    const required = ["form", "category", "service", "list", "empty", "total", "count", "duration", "send"];
+    const missing = required.filter((key) => !el[key]);
+    if (missing.length) {
+      console.warn("Калькулятор візиту: не знайдено елементи", missing);
+      return;
     }
 
-    let latest = null; // останній коректний розрахунок
-    let frame = 0;
+    const groups = readPriceList(document);
+    if (!groups.length) {
+      el.category.innerHTML = "";
+      el.category.append(new Option("Прайс недоступний", ""));
+      el.category.disabled = el.service.disabled = true;
+      el.note.textContent = "Не вдалося завантажити прайс. Зателефонуйте нам, і ми все розрахуємо.";
+      return;
+    }
+    const byId = new Map();
+    groups.forEach((g) => g.services.forEach((s) => byId.set(s.id, { ...s, group: g.name })));
+    const selected = [];
 
-    function setFieldError(field, errorEl, message) {
+    // ---------- Списки напрямів і послуг ----------
+    el.category.innerHTML = "";
+    groups.forEach((g, index) => el.category.append(new Option(g.name, String(index))));
+
+    function fillServices() {
+      const group = groups[Number(el.category.value)] || groups[0];
+      el.service.innerHTML = "";
+      el.service.append(new Option("Оберіть послугу", ""));
+      group.services.forEach((s) => {
+        const time = s.minutes ? `, ${formatDuration(s.minutes)}` : "";
+        el.service.append(new Option(`${s.name} — ${formatUAH(s.price)}${time}`, s.id));
+      });
+      setError(el.service, el.serviceError, "");
+    }
+
+    function setError(input, box, message) {
+      if (!box) return;
       const invalid = Boolean(message);
-      if (field) {
-        field.setAttribute("aria-invalid", String(invalid));
-        field.classList.remove(...(invalid ? NORMAL_CLASSES : ERROR_CLASSES));
-        field.classList.add(...(invalid ? ERROR_CLASSES : NORMAL_CLASSES));
-      }
-      errorEl.textContent = message || "";
-      errorEl.classList.toggle("hidden", !invalid);
+      box.textContent = message;
+      box.classList.toggle("hidden", !invalid);
+      input.setAttribute("aria-invalid", String(invalid));
+      input.classList.remove(...(invalid ? NORMAL_CLASSES : ERROR_CLASSES));
+      input.classList.add(...(invalid ? ERROR_CLASSES : NORMAL_CLASSES));
     }
 
-    function showInvalid() {
-      latest = null;
-      el.perSession.textContent = "—";
-      el.discount.textContent = "—";
-      el.giftPrice.textContent = el.gift.checked ? formatUAH(RULES.giftPrice) : "—";
-      el.total.textContent = "—";
-      el.summary.textContent = "Виправте поля, позначені червоним, щоб побачити суму.";
-      el.send.disabled = true;
+    // ---------- Додавання й видалення ----------
+    function add() {
+      const service = byId.get(el.service.value);
+      if (!service) return setError(el.service, el.serviceError, MSG.noService);
+      if (selected.some((s) => s.id === service.id)) return setError(el.service, el.serviceError, MSG.duplicate);
+      if (selected.length >= MAX_ITEMS) return setError(el.service, el.serviceError, MSG.tooMany);
+      setError(el.service, el.serviceError, "");
+      selected.push(service);
+      el.service.value = "";
+      render();
     }
 
+    function remove(id) {
+      const index = selected.findIndex((s) => s.id === id);
+      if (index === -1) return;
+      selected.splice(index, 1);
+      render();
+      const buttons = el.list.querySelectorAll("button");
+      (buttons[Math.min(index, buttons.length - 1)] || el.service).focus();
+    }
+
+    function recipientValue() {
+      if (!el.gift || !el.gift.checked || !el.recipient) return { value: "" };
+      const value = clean(el.recipient.value);
+      if (value && (value.length > RECIPIENT_MAX || !NAME_RE.test(value))) return { error: MSG.recipient };
+      return { value };
+    }
+
+    // ---------- Відображення ----------
     function render() {
-      frame = 0;
-      el.giftBox.classList.toggle("hidden", !el.gift.checked);
+      el.list.replaceChildren(
+        ...selected.map((s) => {
+          const li = document.createElement("li");
+          li.className = "flex items-start justify-between gap-3 rounded-lg border border-stone-300 bg-white px-4 py-3 text-sm";
+          const info = document.createElement("div");
+          info.className = "min-w-0 [overflow-wrap:anywhere]";
+          const title = document.createElement("p");
+          title.className = "font-semibold text-sage";
+          title.textContent = s.name;
+          const meta = document.createElement("p");
+          meta.className = "text-muted";
+          meta.textContent = [s.group, formatUAH(s.price), s.minutes ? formatDuration(s.minutes) : "час уточнюється"].join(" · ");
+          info.append(title, meta);
+          const del = document.createElement("button");
+          del.type = "button";
+          del.className = "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-stone-300 text-lg text-sage transition hover:border-sage hover:bg-linen";
+          del.setAttribute("aria-label", `Прибрати: ${s.name}`);
+          del.textContent = "×";
+          del.addEventListener("click", () => remove(s.id));
+          li.append(info, del);
+          return li;
+        })
+      );
+      el.empty.classList.toggle("hidden", selected.length > 0);
 
-      const procedure = Object.prototype.hasOwnProperty.call(RULES.procedures, el.procedure.value) ? RULES.procedures[el.procedure.value] : null;
-      const checked = levels.find((r) => r.checked);
-      const level = checked && Object.prototype.hasOwnProperty.call(RULES.levels, checked.value) ? RULES.levels[checked.value] : null;
-      const sessions = parseSessions(el.sessions);
-      const name = el.recipient.value.trim().replace(/\s+/g, " ");
-      const nameOk = !el.gift.checked || name === "" || (name.length <= RULES.recipientMax && NAME_RE.test(name));
+      const total = selected.reduce((sum, s) => sum + s.price, 0);
+      const minutes = selected.reduce((sum, s) => sum + s.minutes, 0);
+      const unknownTime = selected.some((s) => !s.minutes);
+      el.count.textContent = String(selected.length);
+      el.duration.textContent = selected.length ? formatDuration(minutes) + (unknownTime ? " + уточнюється" : "") : "—";
+      el.total.textContent = formatUAH(total);
 
-      setFieldError(el.procedure, el.errors.procedure, procedure ? "" : MSG.procedure);
-      setFieldError(null, el.errors.level, level ? "" : MSG.level);
-      setFieldError(el.sessions, el.errors.sessions, sessions.error || "");
-      setFieldError(el.recipient, el.errors.recipient, nameOk ? "" : MSG.recipient);
-
-      if (!procedure || !level || sessions.error || !nameOk) return showInvalid();
-
-      let result;
-      try {
-        result = calculateCourse({ procedure, level, sessions: sessions.value, led: el.led.checked, gift: el.gift.checked });
-      } catch (err) {
-        console.error("[JuliGrain calculator]", err);
-        return showInvalid();
+      const recipient = recipientValue();
+      if (el.recipient) setError(el.recipient, el.recipientError, recipient.error || "");
+      if (el.giftBox) el.giftBox.classList.toggle("hidden", !(el.gift && el.gift.checked));
+      if (el.note) {
+        el.note.textContent = el.gift && el.gift.checked && selected.length
+          ? `Подарунковий сертифікат${recipient.value ? ` на ім'я: ${recipient.value}` : ""}`
+          : "";
       }
-
-      const word = sessions.value === 1 ? "сеанс" : sessions.value < 5 ? "сеанси" : "сеансів";
-      let summary = `${procedure.name} × ${sessions.value} ${word}, ${level.name}`;
-      if (el.led.checked) summary += ", LED-маска";
-      if (el.gift.checked) summary += name ? `. Сертифікат для: ${name}` : ". Подарунковий сертифікат";
-
-      el.summary.textContent = summary; // textContent: HTML з поля імені не виконується
-      el.perSession.textContent = formatUAH(result.perSession);
-      el.discount.textContent = result.discount ? `−${formatUAH(result.discount)}` : formatUAH(0);
-      el.giftPrice.textContent = el.gift.checked ? formatUAH(result.giftPrice) : "—";
-      el.total.textContent = formatUAH(result.total);
-      el.note.textContent = sessions.rounded ? `Кількість сеансів округлено до ${sessions.value}.` : "";
-      el.send.disabled = false;
-      latest = { summary, total: result.total };
+      el.send.disabled = !selected.length || Boolean(recipient.error);
     }
 
-    // Швидке повторне введення: серія подій в одному циклі дає лише один перерахунок.
-    // (queueMicrotask, а не requestAnimationFrame: rAF «засинає» у фоновій вкладці.)
-    const schedule = () => { if (!frame) { frame = 1; queueMicrotask(render); } };
-
-    el.sessions.addEventListener("input", schedule);
-    el.recipient.addEventListener("input", schedule);
-    [el.procedure, el.led, el.gift, ...levels].forEach((c) => c.addEventListener("change", schedule));
-    // Після виходу з поля показуємо нормалізоване значення (2.5 → 3).
-    el.sessions.addEventListener("change", () => {
-      const s = parseSessions(el.sessions);
-      if (!s.error && s.rounded) el.sessions.value = String(s.value);
-      schedule();
-    });
-    el.form.addEventListener("submit", (e) => e.preventDefault()); // Enter у полі не перезавантажує сторінку
-
-    el.send.addEventListener("click", () => {
-      if (!latest) return;
+    // ---------- Перенесення розрахунку у форму зворотного зв'язку ----------
+    function sendToContactForm() {
+      if (!selected.length) return;
+      const recipient = recipientValue();
+      if (recipient.error) return;
+      const gift = el.gift && el.gift.checked;
+      const lines = [
+        gift ? "Хочу оформити подарунковий сертифікат на послуги:" : "Хочу записатися на послуги:",
+        ...selected.map((s) => `• ${s.name} — ${formatUAH(s.price)}`),
+        `Разом: ${el.total.textContent}, орієнтовно ${el.duration.textContent}.`,
+      ];
+      if (gift && recipient.value) lines.push(`Сертифікат на ім'я: ${recipient.value}.`);
       const message = document.getElementById("message");
-      const text = `Хочу записатися на курс: ${latest.summary}. Орієнтовна сума: ${formatUAH(latest.total)}.`;
+      const topic = document.getElementById("topic");
+      if (topic) topic.value = gift ? "certificate" : "consultation";
       if (message) {
-        message.value = text.slice(0, Number(message.maxLength) > 0 ? message.maxLength : 1000);
+        message.value = lines.join("\n").slice(0, Number(message.maxLength) > 0 ? message.maxLength : 1000);
         message.dispatchEvent(new Event("input", { bubbles: true }));
-        const topic = document.getElementById("topic");
-        const wanted = el.gift.checked ? "certificate" : "consultation";
-        if (topic && [...topic.options].some((o) => o.value === wanted)) topic.value = wanted;
-        document.getElementById("contact")?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
-        message.focus({ preventScroll: true });
       }
+      const contact = document.getElementById("contact");
+      if (contact) contact.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      const name = document.getElementById("username");
+      if (name) setTimeout(() => name.focus({ preventScroll: true }), 400);
+    }
+
+    el.category.addEventListener("change", fillServices);
+    el.service.addEventListener("change", () => setError(el.service, el.serviceError, ""));
+    el.form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      add();
     });
+    if (el.gift) el.gift.addEventListener("change", render);
+    if (el.recipient) el.recipient.addEventListener("input", render);
+    el.send.addEventListener("click", sendToContactForm);
 
+    fillServices();
     render();
-    return { render, calculate: calculateCourse };
   }
 
-  function start() {
-    document.querySelectorAll("[data-course-calculator]").forEach(initCalculator);
-  }
+  const start = () => document.querySelectorAll("[data-visit-calculator]").forEach(initCalculator);
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
   else start();
 })();

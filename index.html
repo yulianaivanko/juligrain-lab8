@@ -4,23 +4,23 @@
     <!-- Налаштування сторінки, шрифти та стилі -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Студія краси JuliGrain у Львові: стрижки, фарбування, макіяж і догляд. Перегляньте послуги та оберіть час у демонстрації запису або залиште повідомлення через форму зворотного зв'язку." />
+    <meta name="description" content="Студія краси JuliGrain у Львові: стрижки, фарбування, макіяж і догляд. Перегляньте ціни, розрахуйте вартість візиту та запишіться онлайн." />
     <!-- Критичні ресурси першого екрана отримують ранній пріоритет. -->
     <link rel="preload" href="assets/images/hero-background.avif" as="image" type="image/avif" fetchpriority="high" />
     <title>Студія краси JuliGrain у Львові | Онлайн-запис</title>
-    <!-- ЛР 12. Один мініфікований CSS (шрифти + Tailwind + hero + стилі плагінів) замість трьох блокуючих файлів -->
-    <link rel="stylesheet" href="css/site.min.css?v=lab12-6" />
-    <!-- ЛР 12. CSS Swiper і Fancybox більше не блокують рендер: plugins.js підвантажує їх біля секцій -->
+    <!-- Один мініфікований CSS: шрифти, Tailwind, hero і стилі плагінів -->
+    <link rel="stylesheet" href="css/site.min.css?v=20261126" />
+    <!-- CSS Swiper і Fancybox не блокують рендер: plugins.js підвантажує їх біля секцій -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml" />
-    <!-- ЛР 12. SEO: канонічна адреса та картка для соцмереж -->
+    <!-- SEO: канонічна адреса та картка для соцмереж -->
     <link rel="canonical" href="https://juligrain-lab9.vercel.app/" />
     <meta name="theme-color" content="#2c3531" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="uk_UA" />
     <meta property="og:site_name" content="JuliGrain" />
     <meta property="og:title" content="Студія краси JuliGrain у Львові | Онлайн-запис" />
-    <meta property="og:description" content="Стрижки, фарбування, манікюр, брови й догляд за шкірою у Львові. Розрахуйте вартість курсу та запишіться онлайн." />
+    <meta property="og:description" content="Стрижки, фарбування, манікюр, брови й догляд за шкірою у Львові. Розрахуйте вартість візиту та запишіться онлайн." />
     <meta property="og:url" content="https://juligrain-lab9.vercel.app/" />
     <meta property="og:image" content="https://juligrain-lab9.vercel.app/assets/images/hero-poster.webp" />
   </head>
@@ -42,7 +42,7 @@
           <a href="#reviews" title="Відгуки">Відгуки</a>
           <a href="#media" class="flex min-h-11 items-center md:hidden lg:flex" title="Відео">Відео</a><a href="#visit" title="Контакти">Контакти</a>
         </nav>
-        <a class="button button-small hidden min-h-11 items-center justify-center rounded-lg bg-sage px-6 py-3 text-center font-semibold text-white transition duration-200 hover:bg-deep hover:shadow-md focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transform-none motion-reduce:transition-none md:inline-flex md:px-4 md:text-sm" href="#booking" title="Перейти до демонстраційного запису JuliGrain">Записатися</a>
+        <a class="button button-small hidden min-h-11 items-center justify-center rounded-lg bg-sage px-6 py-3 text-center font-semibold text-white transition duration-200 hover:bg-deep hover:shadow-md focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transform-none motion-reduce:transition-none md:inline-flex md:px-4 md:text-sm" href="#booking" title="Перейти до онлайн-запису JuliGrain">Записатися</a>
         <button class="menu-toggle inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-stone-400 md:hidden" type="button" aria-expanded="false" aria-controls="site-navigation" aria-label="Відкрити меню">
           <span aria-hidden="true" class="text-2xl">☰</span>
         </button>
@@ -69,7 +69,7 @@
                 одному просторі краси у Львові.
               </p>
               <div class="hero-actions mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <a class="button inline-flex min-h-11 items-center justify-center rounded-lg bg-cream px-6 py-3 text-center font-semibold text-sage transition duration-200 hover:bg-linen hover:shadow-md focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transform-none motion-reduce:transition-none" href="#booking" title="Перейти до демонстраційного запису JuliGrain">Обрати послугу та час</a>
+                <a class="button inline-flex min-h-11 items-center justify-center rounded-lg bg-cream px-6 py-3 text-center font-semibold text-sage transition duration-200 hover:bg-linen hover:shadow-md focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transform-none motion-reduce:transition-none" href="#booking" title="Перейти до онлайн-запису JuliGrain">Обрати послугу та час</a>
                 <a class="button inline-flex min-h-11 items-center justify-center rounded-lg border border-cream bg-transparent px-6 py-3 text-center font-semibold text-cream transition duration-200 hover:bg-cream hover:text-sage hover:shadow-md focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transform-none motion-reduce:transition-none" href="#services" title="Переглянути послуги">Переглянути послуги</a>
               </div>
             </div>
@@ -138,8 +138,8 @@
               </h2>
               <p class="mx-auto max-w-2xl !leading-relaxed text-muted">
                 Усі напрями JuliGrain — від нового образу до догляду за обличчям і тілом. Оберіть
-                те, що потрібно саме вам. Плануєте курс процедур?
-                <a href="#course-calculator" class="font-semibold text-sage underline underline-offset-[3px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B]" title="Калькулятор вартості курсу">Розрахуйте вартість</a>.
+                те, що потрібно саме вам. Хочете знати вартість візиту заздалегідь?
+                <a href="#calculator" class="font-semibold text-sage underline underline-offset-[3px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B]" title="Калькулятор візиту">Розрахуйте вартість</a>.
               </p>
               <div class="filters mt-7 flex flex-wrap justify-center gap-2" role="group" aria-label="Фільтри послуг">
                 <button class="min-h-11 rounded-full border border-stone-300 px-5 py-2 text-sm filter transition hover:bg-sage hover:text-white aria-pressed:border-sage aria-pressed:bg-sage aria-pressed:text-white" type="button" aria-pressed="true" data-filter="all">
@@ -419,9 +419,8 @@
                         </li>
                       </ul>
                       <p class="price-source mt-4 text-xs !leading-relaxed text-muted">
-                        Ціни й тривалість з демонстраційного запису JuliGrain, перевірено
-                        22.10.2026. Остаточну вартість підтверджує салон.
-                        <a href="#booking" class="inline-flex min-h-11 items-center underline underline-offset-[3px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B]" title="Демонстраційний запис">Демонстраційний запис</a>
+                        Ціни актуальні на 22.10.2026. Остаточну вартість підтверджує майстер.
+                        <a href="#booking" class="inline-flex min-h-11 items-center underline underline-offset-[3px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B]" title="Онлайн-запис">Записатися онлайн</a>
                       </p>
                     </div>
                     <a class="mt-4 inline-flex min-h-11 items-center border-b border-sage text-sm font-semibold text-sage transition-colors hover:text-muted focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B] motion-reduce:transition-none" href="#booking" title="Перейти до запису">Перейти до запису</a>
@@ -622,9 +621,8 @@
                         </li>
                       </ul>
                       <p class="price-source mt-4 text-xs !leading-relaxed text-muted">
-                        Ціни й тривалість з демонстраційного запису JuliGrain, перевірено
-                        22.10.2026. Остаточну вартість підтверджує салон.
-                        <a href="#booking" class="inline-flex min-h-11 items-center underline underline-offset-[3px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B]" title="Демонстраційний запис">Демонстраційний запис</a>
+                        Ціни актуальні на 22.10.2026. Остаточну вартість підтверджує майстер.
+                        <a href="#booking" class="inline-flex min-h-11 items-center underline underline-offset-[3px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B]" title="Онлайн-запис">Записатися онлайн</a>
                       </p>
                     </div>
                     <a class="mt-4 inline-flex min-h-11 items-center border-b border-sage text-sm font-semibold text-sage transition-colors hover:text-muted focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B] motion-reduce:transition-none" href="#booking" title="Перейти до запису">Перейти до запису</a>
@@ -757,9 +755,8 @@
                         </li>
                       </ul>
                       <p class="price-source mt-4 text-xs !leading-relaxed text-muted">
-                        Ціни й тривалість з демонстраційного запису JuliGrain, перевірено
-                        22.10.2026. Остаточну вартість підтверджує салон.
-                        <a href="#booking" class="inline-flex min-h-11 items-center underline underline-offset-[3px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B]" title="Демонстраційний запис">Демонстраційний запис</a>
+                        Ціни актуальні на 22.10.2026. Остаточну вартість підтверджує майстер.
+                        <a href="#booking" class="inline-flex min-h-11 items-center underline underline-offset-[3px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B]" title="Онлайн-запис">Записатися онлайн</a>
                       </p>
                     </div>
                     <a class="mt-4 inline-flex min-h-11 items-center border-b border-sage text-sm font-semibold text-sage transition-colors hover:text-muted focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B] motion-reduce:transition-none" href="#booking" title="Перейти до запису">Перейти до запису</a>
@@ -818,9 +815,8 @@
                         </li>
                       </ul>
                       <p class="price-source mt-4 text-xs !leading-relaxed text-muted">
-                        Ціни й тривалість з демонстраційного запису JuliGrain, перевірено
-                        22.10.2026. Остаточну вартість підтверджує салон.
-                        <a href="#booking" class="inline-flex min-h-11 items-center underline underline-offset-[3px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B]" title="Демонстраційний запис">Демонстраційний запис</a>
+                        Ціни актуальні на 22.10.2026. Остаточну вартість підтверджує майстер.
+                        <a href="#booking" class="inline-flex min-h-11 items-center underline underline-offset-[3px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B]" title="Онлайн-запис">Записатися онлайн</a>
                       </p>
                     </div>
                     <a class="mt-4 inline-flex min-h-11 items-center border-b border-sage text-sm font-semibold text-sage transition-colors hover:text-muted focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B] motion-reduce:transition-none" href="#booking" title="Перейти до запису">Перейти до запису</a>
@@ -861,9 +857,8 @@
                         </li>
                       </ul>
                       <p class="price-source mt-4 text-xs !leading-relaxed text-muted">
-                        Ціни й тривалість з демонстраційного запису JuliGrain, перевірено
-                        22.10.2026. Остаточну вартість підтверджує салон.
-                        <a href="#booking" class="inline-flex min-h-11 items-center underline underline-offset-[3px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B]" title="Демонстраційний запис">Демонстраційний запис</a>
+                        Ціни актуальні на 22.10.2026. Остаточну вартість підтверджує майстер.
+                        <a href="#booking" class="inline-flex min-h-11 items-center underline underline-offset-[3px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B]" title="Онлайн-запис">Записатися онлайн</a>
                       </p>
                     </div>
                     <a class="mt-4 inline-flex min-h-11 items-center border-b border-sage text-sm font-semibold text-sage transition-colors hover:text-muted focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B] motion-reduce:transition-none" href="#booking" title="Перейти до запису">Перейти до запису</a>
@@ -968,9 +963,8 @@
                         </li>
                       </ul>
                       <p class="price-source mt-4 text-xs !leading-relaxed text-muted">
-                        Ціни й тривалість з демонстраційного запису JuliGrain, перевірено
-                        22.10.2026. Остаточну вартість підтверджує салон.
-                        <a href="#booking" class="inline-flex min-h-11 items-center underline underline-offset-[3px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B]" title="Демонстраційний запис">Демонстраційний запис</a>
+                        Ціни актуальні на 22.10.2026. Остаточну вартість підтверджує майстер.
+                        <a href="#booking" class="inline-flex min-h-11 items-center underline underline-offset-[3px] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B]" title="Онлайн-запис">Записатися онлайн</a>
                       </p>
                     </div>
                     <a class="mt-4 inline-flex min-h-11 items-center border-b border-sage text-sm font-semibold text-sage transition-colors hover:text-muted focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-4 focus-visible:outline-[#8C7A6B] motion-reduce:transition-none" href="#booking" title="Перейти до запису">Перейти до запису</a>
@@ -980,80 +974,58 @@
             </div>
           </div>
         </section>
-        <!-- ЛР 11. Інтерактивний віджет: калькулятор вартості б'юті-курсу (логіка — js/widget.js) -->
-        <section id="course-calculator" class="scroll-mt-28 bg-linen py-12 md:py-20" aria-labelledby="calc-title" data-course-calculator>
+        <!-- Калькулятор візиту: ціни й тривалість беруться з прайсу вище (логіка — js/widget.js) -->
+        <section id="calculator" class="scroll-mt-28 bg-linen py-12 md:py-20" aria-labelledby="calc-title" data-visit-calculator>
           <div class="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 xl:px-10">
             <div class="section-heading mb-8 max-w-3xl">
               <div class="eyebrow mb-3 text-xs font-semibold uppercase tracking-[0.18em]">
                 <svg class="mr-2 inline h-5 w-5" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
                   <rect x="5" y="3" width="14" height="18" rx="2"></rect>
-                  <path d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M8 18h8"></path></svg>Калькулятор курсу
+                  <path d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M8 18h8"></path></svg>Калькулятор візиту
               </div>
               <h2 class="mb-4 break-words font-display text-3xl font-medium leading-tight md:text-4xl lg:text-5xl" id="calc-title">
-                Розрахуйте вартість свого б'юті-курсу
+                Скільки коштуватиме ваш візит
               </h2>
               <p class="text-muted">
-                Оберіть процедуру, кількість сеансів і додаткові опції — сума оновлюється одразу. Від 5 сеансів діє
-                знижка 10 %, від 10 сеансів — 15 %.
+                Додайте послуги, які хочете зробити за один візит, — ми одразу порахуємо вартість і
+                орієнтовний час. Ціни взято з актуального прайсу салону.
               </p>
             </div>
 
             <div class="grid gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-8">
-              <form class="calc-form min-w-0 rounded-2xl border border-stone-300 bg-cream p-5 shadow-ambient sm:p-8" action="#" novalidate aria-label="Параметри курсу" data-calc="form">
+              <form class="calc-form min-w-0 rounded-2xl border border-stone-300 bg-cream p-5 shadow-ambient sm:p-8" action="#" novalidate aria-label="Вибір послуг для візиту" data-calc="form">
                 <div class="grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
-                  <!-- 1. Процедура: select, подія change -->
-                  <div class="min-w-0 md:col-span-2">
-                    <label for="calc-procedure" class="mb-2 block text-sm font-semibold text-sage">Процедура</label>
-                    <select id="calc-procedure" name="procedure" aria-describedby="calc-procedure-error" aria-invalid="false" data-calc="procedure" class="form-field block min-h-12 w-full rounded-lg border border-stone-300 bg-white px-4 py-3 text-base text-sage transition duration-200 hover:border-stone-400 focus:border-sage focus:outline-none focus:ring-2 focus:ring-gold/60 motion-reduce:transition-none">
-                      <option value="face-massage" selected>Масаж обличчя — 1 400 грн</option>
-                      <option value="is-clinical">Чистка Is Clinical — 2 000 грн</option>
-                      <option value="prx-peel">Пілінг PRX-T33 — 2 300 грн</option>
-                      <option value="hair-repair">Зволоження волосся — 1 900 грн</option>
-                      <option value="manicure">Манікюр класичний — 650 грн</option>
-                    </select>
-                    <p id="calc-procedure-error" class="mt-1.5 hidden text-sm font-medium text-red-700" role="alert" data-calc="procedure-error"></p>
-                  </div>
-
-                  <!-- 2. Кількість сеансів: number, подія input -->
                   <div class="min-w-0">
-                    <label for="calc-sessions" class="mb-2 block text-sm font-semibold text-sage">Кількість сеансів <span class="text-red-700" aria-hidden="true">*</span></label>
-                    <input type="number" id="calc-sessions" name="sessions" value="1" min="1" max="12" step="1" required inputmode="numeric" aria-describedby="calc-sessions-hint calc-sessions-error" aria-invalid="false" data-calc="sessions" class="form-field block min-h-12 w-full rounded-lg border border-stone-300 bg-white px-4 py-3 text-base text-sage transition duration-200 hover:border-stone-400 focus:border-sage focus:outline-none focus:ring-2 focus:ring-gold/60 motion-reduce:transition-none" />
-                    <p id="calc-sessions-hint" class="mt-1.5 text-xs text-muted">Ціле число від 1 до 12</p>
-                    <p id="calc-sessions-error" class="mt-1.5 hidden text-sm font-medium text-red-700" role="alert" data-calc="sessions-error"></p>
+                    <label for="calc-category" class="mb-2 block text-sm font-semibold text-sage">Напрям</label>
+                    <select id="calc-category" name="category" data-calc="category" class="form-field block min-h-12 w-full rounded-lg border border-stone-300 bg-white px-4 py-3 text-base text-sage transition duration-200 hover:border-stone-400 focus:border-sage focus:outline-none focus:ring-2 focus:ring-gold/60 motion-reduce:transition-none">
+                      <option value="">Завантажуємо прайс…</option>
+                    </select>
                   </div>
-
-                  <!-- 3. Рівень майстра: radio, подія change -->
-                  <fieldset class="min-w-0" aria-describedby="calc-level-error">
-                    <legend class="mb-2 block text-sm font-semibold text-sage">Рівень майстра</legend>
-                    <div class="grid grid-cols-2 gap-2">
-                      <label class="flex min-h-12 cursor-pointer items-center gap-2 rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm transition hover:border-stone-400 has-[:checked]:border-sage has-[:checked]:bg-linen has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold/60">
-                        <input type="radio" name="calc-level" value="master" checked data-calc="level" class="h-4 w-4 accent-[#2C3531]" />
-                        <span>Майстер</span>
-                      </label>
-                      <label class="flex min-h-12 cursor-pointer items-center gap-2 rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm transition hover:border-stone-400 has-[:checked]:border-sage has-[:checked]:bg-linen has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold/60">
-                        <input type="radio" name="calc-level" value="top" data-calc="level" class="h-4 w-4 accent-[#2C3531]" />
-                        <span>Топ-майстер <span class="text-muted">+20 %</span></span>
-                      </label>
-                    </div>
-                    <p id="calc-level-error" class="mt-1.5 hidden text-sm font-medium text-red-700" role="alert" data-calc="level-error"></p>
-                  </fieldset>
-
-                  <!-- 4–5. Додаткові опції: checkbox, подія change -->
+                  <div class="min-w-0">
+                    <label for="calc-service" class="mb-2 block text-sm font-semibold text-sage">Послуга</label>
+                    <select id="calc-service" name="service" aria-describedby="calc-service-error" aria-invalid="false" data-calc="service" class="form-field block min-h-12 w-full rounded-lg border border-stone-300 bg-white px-4 py-3 text-base text-sage transition duration-200 hover:border-stone-400 focus:border-sage focus:outline-none focus:ring-2 focus:ring-gold/60 motion-reduce:transition-none">
+                      <option value="">Оберіть послугу</option>
+                    </select>
+                  </div>
                   <div class="min-w-0 md:col-span-2">
-                    <p class="mb-2 block text-sm font-semibold text-sage" id="calc-extras-title">Додаткові опції</p>
-                    <div class="grid gap-2 sm:grid-cols-2" role="group" aria-labelledby="calc-extras-title">
-                      <label class="flex min-h-12 cursor-pointer items-start gap-3 rounded-lg border border-stone-300 bg-white px-3 py-3 text-sm transition hover:border-stone-400 has-[:checked]:border-sage has-[:checked]:bg-linen has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold/60">
-                        <input type="checkbox" id="calc-led" name="led" data-calc="led" class="mt-0.5 h-4 w-4 shrink-0 accent-[#2C3531]" />
-                        <span>LED-маска після кожного сеансу <span class="block text-muted">+350 грн за сеанс</span></span>
-                      </label>
-                      <label class="flex min-h-12 cursor-pointer items-start gap-3 rounded-lg border border-stone-300 bg-white px-3 py-3 text-sm transition hover:border-stone-400 has-[:checked]:border-sage has-[:checked]:bg-linen has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold/60">
-                        <input type="checkbox" id="calc-gift" name="gift" aria-controls="calc-gift-box" data-calc="gift" class="mt-0.5 h-4 w-4 shrink-0 accent-[#2C3531]" />
-                        <span>Оформити як подарунковий сертифікат <span class="block text-muted">+150 грн за оформлення</span></span>
-                      </label>
-                    </div>
+                    <button type="submit" data-calc="add" class="button inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg border border-sage bg-transparent px-6 py-3 text-center font-semibold text-sage transition duration-200 hover:bg-sage hover:text-white focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 active:scale-95 motion-reduce:transform-none motion-reduce:transition-none sm:w-auto">
+                      <span aria-hidden="true">+</span> Додати до візиту
+                    </button>
+                    <p id="calc-service-error" class="mt-1.5 hidden text-sm font-medium text-red-700" role="alert" data-calc="service-error"></p>
                   </div>
 
-                  <!-- 6. Ім'я на сертифікаті: text, подія input (виводиться лише через textContent) -->
+                  <div class="min-w-0 md:col-span-2">
+                    <h3 class="mb-2 text-sm font-semibold text-sage" id="calc-list-title">Обрані послуги</h3>
+                    <p class="rounded-lg border border-dashed border-stone-300 bg-white px-4 py-4 text-sm text-muted" data-calc="empty">Поки що нічого не обрано. Оберіть напрям і послугу, а потім натисніть «Додати до візиту».</p>
+                    <ul class="grid gap-2" aria-labelledby="calc-list-title" data-calc="list"></ul>
+                  </div>
+
+                  <div class="min-w-0 md:col-span-2">
+                    <label class="flex min-h-12 cursor-pointer items-start gap-3 rounded-lg border border-stone-300 bg-white px-3 py-3 text-sm transition hover:border-stone-400 has-[:checked]:border-sage has-[:checked]:bg-linen has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold/60">
+                      <input type="checkbox" id="calc-gift" name="gift" aria-controls="calc-gift-box" data-calc="gift" class="mt-0.5 h-4 w-4 shrink-0 accent-[#2C3531]" />
+                      <span>Оформити як подарунковий сертифікат <span class="block text-muted">Сертифікат на обрані послуги для близької людини</span></span>
+                    </label>
+                  </div>
                   <div class="hidden min-w-0 md:col-span-2" id="calc-gift-box" data-calc="gift-box">
                     <label for="calc-recipient" class="mb-2 block text-sm font-semibold text-sage">Ім'я отримувачки сертифіката</label>
                     <input type="text" id="calc-recipient" name="recipient" maxlength="30" autocomplete="off" aria-describedby="calc-recipient-hint calc-recipient-error" aria-invalid="false" data-calc="recipient" class="form-field block min-h-12 w-full rounded-lg border border-stone-300 bg-white px-4 py-3 text-base text-sage transition duration-200 hover:border-stone-400 focus:border-sage focus:outline-none focus:ring-2 focus:ring-gold/60 motion-reduce:transition-none" />
@@ -1063,22 +1035,19 @@
                 </div>
               </form>
 
-              <!-- Блок результату -->
-              <aside class="min-w-0 rounded-2xl bg-sage p-5 text-white shadow-ambient sm:p-8" aria-labelledby="calc-result-title">
-                <h3 id="calc-result-title" class="mb-4 font-display text-2xl font-semibold leading-tight">Ваш курс</h3>
-                <p class="mb-5 break-words text-sm text-stone-200 [overflow-wrap:anywhere]" data-calc="summary">Міофасціальний масаж обличчя × 1 сеанс, майстер</p>
+              <aside class="min-w-0 self-start rounded-2xl bg-sage p-5 text-white shadow-ambient sm:p-8 lg:sticky lg:top-28" aria-labelledby="calc-result-title">
+                <h3 id="calc-result-title" class="mb-4 font-display text-2xl font-semibold leading-tight">Ваш візит</h3>
                 <dl class="grid gap-3 border-y border-white/20 py-4 text-sm">
-                  <div class="flex flex-wrap justify-between gap-x-4 gap-y-1"><dt class="text-stone-200">Один сеанс</dt><dd class="font-semibold" data-calc="per-session">1 400 грн</dd></div>
-                  <div class="flex flex-wrap justify-between gap-x-4 gap-y-1"><dt class="text-stone-200">Знижка за курс</dt><dd class="font-semibold" data-calc="discount">0 грн</dd></div>
-                  <div class="flex flex-wrap justify-between gap-x-4 gap-y-1"><dt class="text-stone-200">Сертифікат</dt><dd class="font-semibold" data-calc="gift-price">—</dd></div>
+                  <div class="flex flex-wrap justify-between gap-x-4 gap-y-1"><dt class="text-stone-200">Послуг</dt><dd class="font-semibold" data-calc="count">0</dd></div>
+                  <div class="flex flex-wrap justify-between gap-x-4 gap-y-1"><dt class="text-stone-200">Орієнтовний час</dt><dd class="font-semibold" data-calc="duration">—</dd></div>
                 </dl>
-                <p class="mt-5 text-sm text-stone-200">Разом до сплати</p>
-                <p id="calc-total" class="break-words font-display text-4xl font-semibold leading-tight [overflow-wrap:anywhere] md:text-5xl" aria-live="polite" aria-atomic="true" data-calc="total">1 400 грн</p>
+                <p class="mt-5 text-sm text-stone-200">Разом</p>
+                <p id="calc-total" class="break-words font-display text-4xl font-semibold leading-tight [overflow-wrap:anywhere] md:text-5xl" aria-live="polite" aria-atomic="true" data-calc="total">0 грн</p>
                 <p class="mt-2 min-h-5 break-words text-sm text-gold [overflow-wrap:anywhere]" data-calc="note" aria-live="polite"></p>
-                <button type="button" data-calc="send" class="button mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-cream px-6 py-3 text-center font-semibold text-sage transition duration-200 hover:bg-linen hover:shadow-md focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sage active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transform-none motion-reduce:transition-none">
-                  Надіслати розрахунок адміністраторці
+                <button type="button" data-calc="send" disabled class="button mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-cream px-6 py-3 text-center font-semibold text-sage transition duration-200 hover:bg-linen hover:shadow-md focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transform-none motion-reduce:transition-none">
+                  Записатися з цим розрахунком
                 </button>
-                <p class="mt-3 text-xs text-stone-300">Розрахунок орієнтовний. Остаточну вартість підтверджує салон.</p>
+                <p class="mt-3 text-xs text-stone-300">Остаточну вартість підтверджує майстер після консультації: вона може залежати від довжини й густоти волосся або стану шкіри.</p>
               </aside>
             </div>
           </div>
@@ -1088,7 +1057,7 @@
         <section class="about scroll-mt-28 bg-linen py-12 md:py-20" id="about" aria-labelledby="about-title">
           <div class="about-inner mx-auto grid w-full max-w-7xl items-center gap-8 px-4 md:grid-cols-2 md:gap-12 md:px-6 lg:px-8 xl:px-10">
             <div class="motion-photo about-image image-placeholder [&amp;_img]:h-80 [&amp;_img]:w-full [&amp;_img]:object-cover md:[&amp;_img]:h-96 overflow-hidden rounded-2xl">
-              <img src="assets/images/about-photo.webp" alt="Ілюстрація інтер’єру для навчального макета салону" loading="lazy" width="720" height="560" />
+              <img src="assets/images/about-photo.webp" alt="Інтер’єр студії краси JuliGrain у Львові" loading="lazy" width="720" height="560" />
             </div>
             <div class="about-content [&amp;_p]:text-muted space-y-4">
               <div class="eyebrow mb-3 text-xs font-semibold uppercase tracking-[0.18em]">
@@ -1110,7 +1079,7 @@
             </div>
           </div>
         </section>
-        <!-- ЛР 10. Галерея робіт: Fancybox v5, усі фото в одному альбомі data-fancybox="juligrain-works" -->
+        <!-- Галерея робіт: Fancybox v5, усі фото в одному альбомі data-fancybox="juligrain-works" -->
         <section id="gallery" class="scroll-mt-28 bg-cream py-12 md:py-20" aria-labelledby="gallery-title">
           <div class="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 xl:px-10">
             <div class="mb-8 max-w-2xl">
@@ -1205,7 +1174,7 @@
             </p>
           </div>
         </section>
-        <!-- ЛР 10. Відгуки клієнтів: слайдер Swiper.js v11 (autoplay, loop, breakpoints 1/2/3) -->
+        <!-- Відгуки клієнтів: слайдер Swiper.js v11 (autoplay, loop, breakpoints 1/2/3) -->
         <section class="testimonials scroll-mt-28 bg-linen py-12 md:py-20" id="reviews" aria-labelledby="reviews-title">
           <div class="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 xl:px-10">
             <div class="section-heading mb-8 flex flex-wrap items-end justify-between gap-4">
@@ -1283,7 +1252,6 @@
               </div>
               <div class="reviews-pagination swiper-pagination !static mt-8"></div>
             </div>
-            <p class="mt-4 text-sm text-muted">Приклади відгуків для навчального макета.</p>
           </div>
         </section>
         <section class="booking scroll-mt-28 bg-linen py-12 md:py-20" id="booking" aria-labelledby="booking-title">
@@ -1295,11 +1263,11 @@
                   <path d="M16 3v4M8 3v4M3 11h18"></path></svg>Ваша б'юті-подорож
               </div>
               <h2 class="mb-4 break-words font-display text-3xl font-medium leading-tight md:text-4xl lg:text-5xl" id="booking-title">
-                Приклад вибору послуги
+                Онлайн-запис
               </h2>
               <p>
-                Навчальна демонстрація інтерфейсу. Для переходу до демозапису скористайтеся офіційними
-                контактами салону.
+                Оберіть послугу, майстра й зручний час. Адміністраторка підтвердить запис дзвінком
+                або повідомленням.
               </p>
             </div>
             <div class="booking-steps mb-6 grid grid-cols-5 gap-1.5 sm:gap-3" role="group" aria-label="Етапи вибору послуги">
@@ -1355,7 +1323,7 @@
                 <address class="mb-5 not-italic text-muted">
                   Львів, вул. Стрийська, 45г, офіс 180/1
                 </address>
-                <!-- MEDIA START: Google Maps iframe. Адреса JuliGrain з ЛР6; w-full і адаптивна висота не виходять за контейнер. title називає карту, loading=lazy відкладає її завантаження. -->
+                <!-- MEDIA START: Google Maps iframe. w-full і адаптивна висота не виходять за контейнер. title називає карту, loading=lazy відкладає її завантаження. -->
                 <iframe id="salon-map" class="h-80 w-full rounded-2xl border-0 bg-linen shadow-ambient md:h-96" data-src="https://www.google.com/maps/embed?origin=mfe&amp;pb=!1m2!2m1!1zSnVsaUdyYWluLCDQodGC0YDQuNC50YHRjNC60LAgNDXQsywg0JvRjNCy0ZbQsg!3m1!1suk!5m1!1suk" title="Google Maps: JuliGrain, Львів, Стрийська 45г" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen=""></iframe>
                 <!-- MEDIA END: Google Maps iframe; нижче резервне посилання на розташування. -->
                 <a class="mt-4 inline-flex min-h-11 items-center font-semibold underline underline-offset-4" href="https://share.google/xACp0bO13jCfwDjTA" target="_blank" rel="noopener noreferrer" title="Відкрити розташування салону ↗">Відкрити розташування салону ↗</a>
@@ -1379,7 +1347,7 @@
             </div>
           </div>
         </section>
-        <!-- ЛР 9. Форма зворотного зв'язку з клієнтською валідацією -->
+        <!-- Форма зворотного зв'язку з перевіркою полів -->
         <section id="contact" aria-labelledby="contact-title" class="scroll-mt-28 bg-linen py-12 md:py-20">
           <div class="mx-auto grid w-full max-w-7xl gap-10 px-4 md:px-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14 lg:px-8 xl:px-10">
             <div class="min-w-0">
@@ -1398,7 +1366,7 @@
               <ul class="grid gap-3 text-sm text-muted" role="list">
                 <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true"></span>Усі поля, позначені зірочкою, є обов'язковими.</li>
                 <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true"></span>Телефон вводьте у форматі +380XXXXXXXXX. Номер, що починається з 0, буде доповнено автоматично.</li>
-                <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true"></span>Навчальна демонстрація: дані перевіряються лише в браузері та нікуди не надсилаються.</li>
+                <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true"></span>Найшвидше відповідаємо в Instagram Direct @juligrainsalon і за телефоном +380 77 888 35 35.</li>
               </ul>
             </div>
 
@@ -1474,7 +1442,7 @@
             </form>
           </div>
 
-          <!-- Модальне вікно: імітація успішного надсилання -->
+          <!-- Модальне вікно після надсилання -->
           <div id="successModal" class="modal-overlay fixed inset-0 z-[70] hidden items-center justify-center bg-deep/70 p-4 backdrop-blur-sm">
             <div class="modal-card w-full max-w-md rounded-2xl bg-cream p-6 text-center shadow-2xl sm:p-8" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalText">
               <div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-green-100 text-green-800" aria-hidden="true">
@@ -1482,9 +1450,13 @@
               </div>
               <h3 id="modalTitle" class="mb-3 font-display text-2xl font-semibold leading-tight text-sage">Дякуємо, <span id="modalName">гостю</span>!</h3>
               <p id="modalText" class="mb-6 text-muted">
-                Форма успішно пройшла клієнтську валідацію. Це демонстрація успішного надсилання:
-                дані не передаються на сервер.
+                Ваше звернення готове, текст ми скопіювали. Надішліть його нам в Instagram Direct або
+                зателефонуйте — адміністраторка відповість протягом робочого дня.
               </p>
+              <div class="mb-3 grid gap-3 sm:grid-cols-2">
+                <a href="https://ig.me/m/juligrainsalon" target="_blank" rel="noopener" class="button inline-flex min-h-12 items-center justify-center rounded-lg bg-sage px-4 py-3 font-semibold text-white transition duration-200 hover:bg-deep focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 motion-reduce:transition-none">Написати в Instagram</a>
+                <a href="tel:+380778883535" class="button inline-flex min-h-12 items-center justify-center rounded-lg border border-sage px-4 py-3 font-semibold text-sage transition duration-200 hover:bg-linen focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 motion-reduce:transition-none">Зателефонувати</a>
+              </div>
               <button type="button" id="closeModalBtn" class="button inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-sage px-8 py-3 font-semibold text-white transition duration-200 hover:bg-deep focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 motion-reduce:transition-none">
                 Закрити
               </button>
@@ -1501,7 +1473,7 @@
               Готові відчути свою природну красу?
             </h2>
             <p>Зробіть перший крок до краси та гармонії.</p>
-            <a class="button mt-8 inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-gold bg-gold px-6 py-3 text-center font-semibold text-sage transition duration-200 hover:bg-cream hover:shadow-lg hover:shadow-md focus-visible:outline-cream focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transform-none motion-reduce:transition-none sm:w-auto" href="#booking" title="Перейти до демонстраційного запису JuliGrain">Перейти до запису</a>
+            <a class="button mt-8 inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-gold bg-gold px-6 py-3 text-center font-semibold text-sage transition duration-200 hover:bg-cream hover:shadow-lg hover:shadow-md focus-visible:outline-cream focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transform-none motion-reduce:transition-none sm:w-auto" href="#booking" title="Перейти до онлайн-запису JuliGrain">Перейти до запису</a>
           </div>
         </section>
       </main>
@@ -1541,14 +1513,14 @@
         <span>© 2026 JuliGrain</span><span>Усі права захищено.</span>
       </div>
     </footer>
-    <script src="js/booking.min.js?v=lab12" defer></script>
-    <script src="js/app.min.js?v=lab12-2" defer></script>
-    <script src="assets/js/validation.min.js?v=lab12" defer></script>
-    <!-- ЛР 10/12. Typed.js потрібен у hero одразу; Swiper і Fancybox plugins.js завантажує ліниво -->
+    <script src="js/booking.min.js?v=20261126" defer></script>
+    <script src="js/app.min.js?v=20261126" defer></script>
+    <script src="assets/js/validation.min.js?v=20261126" defer></script>
+    <!-- Typed.js потрібен у hero одразу; Swiper і Fancybox plugins.js завантажує ліниво -->
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js" defer></script>
-    <script src="assets/js/plugins.min.js?v=lab12-2" defer></script>
-    <!-- ЛР 11. Інтерактивний віджет: калькулятор б'юті-курсу -->
-    <script src="js/widget.min.js?v=lab12" defer></script>
+    <script src="assets/js/plugins.min.js?v=20261126" defer></script>
+    <!-- Калькулятор візиту -->
+    <script src="js/widget.min.js?v=20261126" defer></script>
     <!-- MEDIA START: асинхронний завантажувач WeatherWidget.io не блокує розбір HTML. -->
     <!-- Погодний скрипт підключається app.js лише біля секції контактів. -->
     <!-- MEDIA END: завантажувач погоди. -->

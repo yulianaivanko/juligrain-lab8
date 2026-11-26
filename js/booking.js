@@ -20,9 +20,9 @@
     ["Зволоження", "Очищення"],
   ];
   const masters = [
-    "Будь-який майстер — демоприклад",
-    "Майстер 1 — демоприклад",
-    "Майстер 2 — демоприклад",
+    "Будь-який вільний майстер",
+    "Майстер",
+    "Топ-майстер",
   ];
   const state = { service: null, parameter: null, master: null, date: "", time: "" };
   let step = 0;
@@ -153,7 +153,7 @@
       panel.append(summary);
       const note = document.createElement("p");
       note.textContent =
-        "Це демонстраційний запис. Дані не надсилаються до студії; майстри й години наведені для прикладу.";
+        "Натисніть «Надіслати заявку» — ми перенесемо деталі у форму нижче. Залиште ім'я та телефон, і адміністраторка підтвердить час.";
       panel.append(note);
     }
     const message = document.createElement("p");
@@ -173,11 +173,24 @@
     next.type = "button";
     next.className =
       "button inline-flex min-h-11 items-center justify-center rounded-lg bg-sage px-6 py-3 text-center font-semibold text-white transition duration-200 hover:bg-deep active:scale-95 disabled:cursor-not-allowed disabled:opacity-50";
-    next.textContent = step === 4 ? "Завершити демозапис" : "Продовжити";
+    next.textContent = step === 4 ? "Надіслати заявку" : "Продовжити";
     next.addEventListener("click", () => {
       if (step < 4) return go(step + 1);
+      const request = [
+        "Хочу записатися:",
+        `• ${services[state.service].name} (${parameters[state.service][state.parameter].toLowerCase()})`,
+        `• ${masters[state.master]}`,
+        `• ${state.date.split("-").reverse().join(".")} о ${state.time}`,
+      ].join("\n");
+      const message = document.getElementById("message");
+      const topic = document.getElementById("topic");
+      if (topic) topic.value = "consultation";
+      if (message) {
+        message.value = request;
+        message.dispatchEvent(new Event("input", { bubbles: true }));
+      }
       panel.innerHTML =
-        '<h3 class="mb-4 font-display text-2xl font-semibold" tabindex="-1">Демозапис завершено</h3><p role="status">Ви пройшли всі кроки. Реальне бронювання не створено.</p><button class="button inline-flex min-h-11 items-center justify-center rounded-lg bg-sage px-6 py-3 text-center font-semibold text-white transition duration-200 hover:bg-deep active:scale-95 disabled:cursor-not-allowed disabled:opacity-50" type="button">Почати заново</button>';
+        '<h3 class="mb-4 font-display text-2xl font-semibold" tabindex="-1">Майже готово</h3><p role="status" class="mb-4">Деталі запису вже у формі «Зворотний зв’язок». Залиште ім’я та телефон — адміністраторка підтвердить час.</p><a href="#contact" class="mb-4 mr-3 inline-flex min-h-11 items-center justify-center rounded-lg bg-sage px-6 py-3 text-center font-semibold text-white transition duration-200 hover:bg-deep">До форми</a><button class="button mb-4 inline-flex min-h-11 items-center justify-center rounded-lg border border-sage bg-transparent px-6 py-3 text-center font-semibold text-sage transition duration-200 hover:bg-linen active:scale-95 disabled:cursor-not-allowed disabled:opacity-50" type="button">Почати заново</button>';
       panel.querySelector("h3").focus();
       steps.forEach((button) => {
         button.disabled = true;

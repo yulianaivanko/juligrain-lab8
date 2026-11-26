@@ -1,4 +1,4 @@
-# ЛР 12. CI/CD конвеєр JuliGrain: Push → Test (CI) → Deploy (CD) на Vercel.
+# CI/CD конвеєр JuliGrain: Push → Test (CI) → Deploy (CD) на Vercel.
 # CI: перевірка синтаксису JS і автоматичний Lighthouse-аудит (Lighthouse CI) з порогами якості.
 # CD: якщо тести пройдені і це push у main — продакшн-деплой через Vercel CLI.
 name: CI/CD Production Deploy
