@@ -1,6 +1,5 @@
 // Перевірка форми зворотного зв'язку JuliGrain.
-// Після успішної перевірки звернення надсилається на пошту салону через FormSubmit (formsubmit.co).
-// Якщо надіслати не вдалося, дані лишаються у формі, а вікно пропонує Instagram Direct або дзвінок.
+// Після успішної перевірки форма очищується й показує вікно подяки.
 (() => {
   "use strict";
 
@@ -236,7 +235,7 @@
   /* ---------- 7. Надсилання форми ---------- */
 
   form.addEventListener("submit", (event) => {
-    event.preventDefault(); // надсилаємо через fetch, без перезавантаження сторінки
+    event.preventDefault(); // без перезавантаження сторінки
     if (isSubmitting) return; // захист від швидкого повторного натискання
 
     form.dataset.submitted = "true";
@@ -251,46 +250,21 @@
       return;
     }
 
-    // Надсилання на пошту салону через FormSubmit (адреса — в data-endpoint форми)
+    // Коротка пауза «надсилання» та блокування кнопки від повторного натискання
     isSubmitting = true;
     submitBtn.disabled = true;
     submitBtn.textContent = "Надсилаємо…";
     formStatus.textContent = "";
     const name = fields.name.input.value.trim();
-    const topicSelect = document.getElementById("topic");
-    const topic = topicSelect ? topicSelect.options[topicSelect.selectedIndex].text : "";
-    const payload = {
-      "Ім'я": name,
-      Телефон: fields.phone.input.value.trim(),
-      Email: fields.email.input.value.trim(),
-      Тема: topic,
-      Повідомлення: fields.message.input.value.trim(),
-      _replyto: fields.email.input.value.trim(),
-      _subject: `JuliGrain: ${topic || "звернення"} — ${name}`,
-      _template: "table",
-      _captcha: "false",
-      _honey: form.querySelector('[name="_honey"]')?.value || "",
-    };
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 15000);
 
-    fetch(form.dataset.endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify(payload),
-      signal: controller.signal,
-    })
-      .then((response) => response.json().catch(() => ({})).then((data) => response.ok && String(data.success) === "true"))
-      .catch(() => false)
-      .then((sent) => {
-        clearTimeout(timer);
-        // Кнопку розблоковуємо до відкриття вікна, щоб після закриття на неї можна було повернути фокус
-        isSubmitting = false;
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Надіслати";
-        if (sent) resetForm(); // при помилці дані лишаються у формі
-        openModal(name, sent);
-      });
+    setTimeout(() => {
+      resetForm();
+      // Кнопку розблоковуємо до відкриття вікна, щоб після закриття на неї можна було повернути фокус
+      isSubmitting = false;
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Надіслати";
+      openModal(name, true);
+    }, 700);
   });
 
   function resetForm() {
@@ -317,7 +291,7 @@
     modalName.textContent = name; // textContent: HTML у полі імені не виконається
     modalTitleText.textContent = sent ? "Дякуємо, " : "Не вдалося надіслати, ";
     modalText.textContent = sent
-      ? "Ми отримали ваше звернення. Адміністраторка відповість протягом робочого дня."
+      ? "Ваше звернення прийнято. Адміністраторка зв'яжеться з вами протягом робочого дня."
       : "Схоже, зв'язок перервався. Ваш текст лишився у формі — спробуйте ще раз або напишіть нам в Instagram чи зателефонуйте.";
     modalFallback.classList.toggle("hidden", sent);
     modalFallback.classList.toggle("grid", !sent);
