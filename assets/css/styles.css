@@ -160,3 +160,8 @@ summary { -webkit-user-select: none; user-select: none; caret-color: transparent
 /* ===== Відгуки однакової висоти: слайд тягнеться на висоту найвищого ===== */
 .reviews-swiper .swiper-wrapper { align-items: stretch; }
 .reviews-swiper .swiper-slide { height: auto !important; }
+
+/* Текстова каретка (миготлива риска) потрібна лише в полях введення,
+   а не після кліку по заголовках і тексту сторінки. */
+body { caret-color: transparent; }
+input, textarea, select, [contenteditable="true"] { caret-color: auto; }
