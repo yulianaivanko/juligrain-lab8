@@ -9,7 +9,7 @@
     <link rel="preload" href="assets/images/hero-background.avif" as="image" type="image/avif" fetchpriority="high" />
     <title>Студія краси JuliGrain у Львові | Онлайн-запис</title>
     <!-- Один мініфікований CSS: шрифти, Tailwind, hero і стилі плагінів -->
-    <link rel="stylesheet" href="css/site.min.css?v=20261126m" />
+    <link rel="stylesheet" href="css/site.min.css?v=20261127a" />
     <!-- CSS Swiper і Fancybox не блокують рендер: plugins.js підвантажує їх біля секцій -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml" />
@@ -940,10 +940,12 @@
                   </div>
 
                   <div class="min-w-0">
-                    <label class="flex min-h-12 cursor-pointer items-start gap-3 rounded-lg border border-stone-300 bg-white px-3 py-3 text-sm transition hover:border-stone-400 has-[:checked]:border-sage has-[:checked]:bg-linen has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold/60">
-                      <input type="checkbox" id="calc-gift" name="gift" aria-controls="calc-gift-box" data-calc="gift" class="mt-0.5 h-4 w-4 shrink-0 accent-[#2C3531]" />
-                      <span>Оформити як подарунковий сертифікат <span class="block text-muted">Подарунок для близької людини</span></span>
+                    <span id="calc-gift-title" class="mb-2 block text-sm font-semibold text-sage">Подарунковий сертифікат</span>
+                    <label class="flex h-12 min-h-12 cursor-pointer items-center gap-3 rounded-lg border border-stone-300 bg-white px-4 text-base text-sage transition hover:border-stone-400 has-[:checked]:border-sage has-[:checked]:bg-linen has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold/60">
+                      <input type="checkbox" id="calc-gift" name="gift" aria-controls="calc-gift-box" aria-describedby="calc-gift-hint" data-calc="gift" class="h-5 w-5 shrink-0 accent-[#2C3531]" />
+                      <span class="truncate">Оформити як подарунок</span>
                     </label>
+                    <p id="calc-gift-hint" class="mt-1.5 text-xs text-muted">Сертифікат на візит для близької людини</p>
                   </div>
                   <div class="min-w-0" id="calc-gift-box" data-calc="gift-box">
                     <label for="calc-recipient" class="mb-2 block text-sm font-semibold text-sage">Ім'я отримувачки сертифіката</label>
@@ -1469,12 +1471,12 @@
         <span>© 2026 JuliGrain</span><span>Усі права захищено.</span>
       </div>
     </footer>
-    <script src="js/app.min.js?v=20261126m" defer></script>
-    <script src="assets/js/validation.min.js?v=20261126m" defer></script>
+    <script src="js/app.min.js?v=20261127a" defer></script>
+    <script src="assets/js/validation.min.js?v=20261127a" defer></script>
     <!-- Typed.js потрібен у hero одразу; Swiper і Fancybox plugins.js завантажує ліниво -->
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js" defer></script>
-    <script src="assets/js/plugins.min.js?v=20261126m" defer></script>
+    <script src="assets/js/plugins.min.js?v=20261127a" defer></script>
     <!-- Калькулятор візиту -->
-    <script src="js/widget.min.js?v=20261126m" defer></script>
+    <script src="js/widget.min.js?v=20261127a" defer></script>
   </body>
 </html>
